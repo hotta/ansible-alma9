@@ -1,0 +1,40 @@
+---
+- name: roles/base/tasks/mandatory.yml
+  set_fact: dummy=0
+
+- name: Install mandatory packages
+  dnf: 
+    name:
+      - chrony
+      - glibc-devel
+      - gcc-c++
+      - python3-passlib
+      - python3-libselinux
+      - git
+      - patch
+      - rsync
+      - vim-enhanced
+      - nkf
+      - bind-utils
+      - unzip
+      - bzip2
+      - wget
+      - w3m
+      - kernel-devel
+      - man
+      - npm
+      - joe
+      - perl-ExtUtils-MakeMaker
+      - tcpdump
+      - strace
+      - libsmi
+      - jq
+      - nano
+  become: yes
+
+- name: Install additional packages for AlmaLinux
+  dnf:
+    name:
+      - man-pages
+      - man-pages-overrides
+  become: yes

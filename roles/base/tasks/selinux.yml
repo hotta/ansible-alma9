@@ -1,0 +1,14 @@
+---
+- name: roles/base/tasks/selinux.yml
+  set_fact: dummy=0
+
+- name: Install tools required for disabling selinux
+  dnf: 
+    name: python3-libselinux
+    state: present
+  become: yes
+
+- name: Disable selinux 
+  selinux:
+    state: disabled
+  become: yes

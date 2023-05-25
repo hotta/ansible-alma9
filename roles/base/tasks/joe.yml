@@ -1,0 +1,10 @@
+---
+- name: roles/base/tasks/joe.yml
+  set_fact: dummy=0
+
+- name: disable wordwrap in joe editor
+  replace:
+    path: /etc/joe/ftyperc
+    regexp: ^-wordwrap
+    replace: " -wordwrap"
+  become: yes

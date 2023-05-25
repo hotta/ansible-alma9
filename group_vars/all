@@ -1,0 +1,5 @@
+---
+# ------------- Common Settings -------------
+TIME_ZONE:     'Asia/Tokyo'
+TIME_SERVER:   'ntp.nict.jp'
+ENABLE_CRB:    True

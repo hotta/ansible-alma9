@@ -1,0 +1,19 @@
+# Basic Congiguration Control
+---
+- name: roles/base/tasks/main.yml
+  set_fact: dummy=0
+
+# dnf config-manager --set-enabled crb
+- name: Enable CRB(CodeReady Linux Builder) repository
+  lineinfile:
+    path: /etc/yum.repos.d/almalinux-crb.repo
+    regexp: ^enabled
+    line: enabled=1
+    firstmatch: yes
+  become: yes
+  when: ENABLE_CRB
+
+- import_tasks: mandatory.yml
+- import_tasks: time.yml
+- import_tasks: selinux.yml
+- import_tasks: joe.yml

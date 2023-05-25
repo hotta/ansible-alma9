@@ -1,0 +1,23 @@
+# Set time stuff
+---
+- name: roles/base/tasks/time.yml
+  set_fact: dummy=0
+
+- name: Set time zone (ansible 2.2 or later)
+  timezone:
+    name: "{{ TIME_ZONE }}"
+  become: yes
+
+- name: Force sync time quickly
+  template:
+    src: chrony.conf
+    dest: /etc/
+  become: yes
+  when: ansible_virtualization_type == "virtualbox"
+
+- name: restart chrony
+  systemd:
+    name: chronyd
+    state: restarted
+  become: yes
+  when: ansible_virtualization_type == "virtualbox"
