@@ -2,7 +2,7 @@
 
 ## Minimum requirements
 
-1. using AlmaLinux-9.x
+### using AlmaLinux-9.x
 
 To create AlmaLinux-9 vagrant machine on Windows11:
 
@@ -21,7 +21,9 @@ end
 PS> vagrant up
 ```
 
-2. We assume vagrant environment
+### User and permissions to run
+
+It is intended to be run in a vagrant environment.
 
 ```
 $ sudo cat /etc/sudoers.d/vagrant
@@ -38,7 +40,7 @@ $ cd ansible-alma9
 $ ansible-galaxy collection install -r requirements.yml
 ```
 
-I recommend you to take a snapshot at this point.
+I recommend you to take a vagrant snapshot at this point.
 
 ## Exceution
 

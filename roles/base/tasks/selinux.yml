@@ -8,7 +8,8 @@
     state: present
   become: yes
 
+# on RHEL9/Alma9 etc, selinux will never be disabled by this way. This makes it just "permissive".
 - name: Disable selinux 
-  selinux:
+  ansible.posix.selinux:
     state: disabled
   become: yes

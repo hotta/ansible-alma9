@@ -1,0 +1,9 @@
+---
+- name: roles/389ds/tasks/main.yml
+  set_fact: dummy=0
+
+- name: Install 389ds
+  dnf:
+    name: 389-ds-base
+    state: present
+  become: yes

@@ -30,6 +30,9 @@
       - libsmi
       - jq
       - nano
+      - python-dnf
+      - python3-pip
+      - ansible-lint
   become: yes
 
 - name: Install additional packages for AlmaLinux
