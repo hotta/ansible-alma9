@@ -1,6 +1,6 @@
 ---
 - name: roles/base/tasks/selinux.yml
-  set_fact: dummy=0
+  meta: noop
 
 - name: Install tools required for disabling selinux
   dnf: 
@@ -8,8 +8,10 @@
     state: present
   become: yes
 
-# on RHEL9/Alma9 etc, selinux will never be disabled by this way. This makes it just "permissive".
 - name: Disable selinux 
   ansible.posix.selinux:
     state: disabled
   become: yes
+
+- name: Note that selinux will never be disabled by this way on RHEL9 and its derivatives. We've just made it "permissive".
+  meta: noop

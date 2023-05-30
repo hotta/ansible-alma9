@@ -33,6 +33,7 @@ $ sudo cat /etc/sudoers.d/vagrant
 ## Preparation
 
 ```
+$ sudo dnf -y update
 $ sudo dnf -y install git epel-release glibc-langpack-ja
 $ sudo dnf -y install ansible
 $ git clone https://github.com/hotta/ansible-alma9 

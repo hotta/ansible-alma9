@@ -1,6 +1,6 @@
 ---
 - name: roles/389ds/tasks/main.yml
-  set_fact: dummy=0
+  meta: noop
 
 - name: Install 389ds
   dnf:

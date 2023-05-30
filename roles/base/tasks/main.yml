@@ -1,7 +1,7 @@
 # Basic Congiguration Control
 ---
 - name: roles/base/tasks/main.yml
-  set_fact: dummy=0
+  meta: noop
 
 # dnf config-manager --set-enabled crb
 - name: Enable CRB(CodeReady Linux Builder) repository
@@ -16,4 +16,5 @@
 - import_tasks: mandatory.yml
 - import_tasks: time.yml
 - import_tasks: selinux.yml
+  tags: selinux
 - import_tasks: joe.yml

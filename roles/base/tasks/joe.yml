@@ -1,6 +1,6 @@
 ---
 - name: roles/base/tasks/joe.yml
-  set_fact: dummy=0
+  meta: noop
 
 - name: disable wordwrap in joe editor
   replace:

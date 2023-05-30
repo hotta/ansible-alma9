@@ -1,7 +1,7 @@
 # Set time stuff
 ---
 - name: roles/base/tasks/time.yml
-  set_fact: dummy=0
+  meta: noop
 
 - name: Set time zone (ansible 2.2 or later)
   timezone:
