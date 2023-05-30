@@ -132,6 +132,6 @@ sample_entries = {{ DS389_SAMPLE_ENTRIES }}
 # suffix (str)
 # Description: Sets the root suffix stored in this database.  If you do not uncomment and set the suffix attribute the install process will NOT create the backend/suffix.  You can also create multiple backends/suffixes by duplicating this section.
 # Default value:  
-;suffix = 
+;; suffix = {{ DS389_SUFFIX }}
 
 

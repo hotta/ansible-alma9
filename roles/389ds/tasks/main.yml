@@ -8,7 +8,44 @@
     state: present
   become: yes
 
-- name: Deploy ds-template to /tmp
+- name: Deploy ds-template.txt to /tmp
   template:
     src: ds-template.txt
     dest: /tmp
+
+- name: Check existence of slapd instance
+  command: dsctl {{ DS389_INSTANCE_NAME }} status
+  become: yes
+  register: check_instance
+  ignore_errors: yes
+
+- debug: var=check_instance.failed
+
+- name: Stop 389ds instance if needed
+  command: dsctl {{ DS389_INSTANCE_NAME }} stop
+  become: yes
+  when: 
+    - not check_instance.failed
+    - DS389_FORCE_CREATE
+
+- name: Delete current instance if exists
+  command: dsctl {{ DS389_INSTANCE_NAME }} remove --do-it
+  become: yes
+  when: 
+    - not check_instance.failed
+    - DS389_FORCE_CREATE
+  tags: delete_instance
+  
+- name: Create 389ds instance
+  command: dscreate from-file /tmp/ds-template.txt
+  become: yes
+  when: check_instance.failed or DS389_FORCE_CREATE
+
+- name: Open the port of firewall for 389ds
+  ansible.posix.firewalld:
+    immediate: true
+    offline: true
+    permanent: true
+    service: ldap
+    state: enabled
+  become: yes
