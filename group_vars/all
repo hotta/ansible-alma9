@@ -3,3 +3,9 @@
 TIME_ZONE:     'Asia/Tokyo'
 TIME_SERVER:   'ntp.nict.jp'
 ENABLE_CRB:    True
+# ------------------ 389ds ------------------
+DS389_CONFIG:   999999999                           # general.defaults
+DS389_FQDN:     "{{ ansible_facts['nodename'] }}"   # general.full_machine_name
+DS389_INSTANCE_NAME:  'localhost'             # slapd.instance_name
+DS389_ROOT_PASSWORD:  '389_root_pw'           # slapd.root_password
+DS389_SAMPLE_ENTRIES: 'yes'                   # backend-userroot.sample_entries

@@ -7,3 +7,8 @@
     name: 389-ds-base
     state: present
   become: yes
+
+- name: Deploy ds-template to /tmp
+  template:
+    src: ds-template.txt
+    dest: /tmp
