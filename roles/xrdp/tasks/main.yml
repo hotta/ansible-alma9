@@ -1,0 +1,32 @@
+---
+- name: roles/xrdp/tasks/main.yml
+  set_fact: d=0
+
+- name: Install required packages
+  dnf:
+    name:
+      - xrdp
+      - tigervnc-server
+  become: yes
+
+- name: Customize xrdp.ini
+  template:
+    src: xrdp.ini
+    dest: /etc/xrdp/
+  become: yes
+
+- name: Start and enable service
+  systemd:
+    name: xrdp
+    state: restarted
+    enabled: yes
+  become: yes
+
+- name: Open firewall
+  ansible.posix.firewalld:
+    service: rdp
+    immediate: yes
+    permanent: yes
+    state: enabled
+  become: yes
+    
