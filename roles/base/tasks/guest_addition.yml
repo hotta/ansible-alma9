@@ -1,0 +1,9 @@
+---
+- name: roles/base/tasks/main.yml
+  set_fact: dummy=0
+
+- name: Install guest addition
+  dnf:
+    name: open-vm-tools
+  become: yes
+  when: ansible_product_name is match('VMware')
