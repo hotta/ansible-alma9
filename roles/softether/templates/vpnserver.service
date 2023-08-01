@@ -1,0 +1,13 @@
+[Unit]
+Description=SoftEther VPN Server
+Documentation=https://ja.softether.org/4-docs/
+After=syslog.target network.target
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/sysconfig/vpnserver
+ExecStart=/usr/local/vpnserver/vpnserver start
+ExecStop=/usr/local/vpnserver/vpnserver stop
+
+[Install]
+WantedBy=multi-user.target

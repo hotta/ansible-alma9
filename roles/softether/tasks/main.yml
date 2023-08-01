@@ -1,0 +1,102 @@
+---
+- name: roles/softether/tasks/main.yml
+  set_fact: _BASENAME=vpnserver
+
+# all thread libraries and APIs were merged into libc.so.6 in RHEL9
+
+- name: Istall Development Tools
+  dnf:
+    name: 
+      - '@Development Tools'
+      - readline-devel
+      - ncurses-devel
+  become: true
+
+- name: Get softether archive
+  get_url:
+    url: https://jp.softether-download.com/files/softether/v4.42-9798-rtm-2023.06.30-tree/Linux/SoftEther_VPN_Server/64bit_-_Intel_x64_or_AMD64/softether-vpnserver-v4.42-9798-rtm-2023.06.30-linux-x64-64bit.tar.gz
+    dest: /tmp/{{ _BASENAME }}.tar.gz
+
+- name: extract archive
+  unarchive:
+    remote_src: true
+    dest: /tmp/
+    src: /tmp/{{ _BASENAME }}.tar.gz
+
+- name: Build binary
+  community.general.make:
+    chdir: /tmp/{{ _BASENAME }}
+
+- name: Deploy to /usr/local
+  command:
+    cmd: cp -rp /tmp/{{ _BASENAME }} /usr/local/{{ _BASENAME }}
+    creates: /usr/local/{{ _BASENAME }}
+  become: true
+
+- name: Set owners
+  file:
+    path: /usr/local/{{ _BASENAME }}
+    owner: root
+    group: root
+    recurse: true
+    state: directory
+  become: true
+
+- name: Set permissions for directories
+  command: find /usr/local/{{ _BASENAME }} -type d -exec chmod 0700 {} \;
+  become: true
+
+- name: Set permissions for files
+  command: find /usr/local/{{ _BASENAME }} -type f -exec chmod 0600 {} \;
+  become: true
+
+- name: Set permissions for excutable files
+  file:
+    path: /usr/local/{{ _BASENAME }}/{{ item }}
+    mode: 0700
+  become: true
+  loop:
+    - vpncmd
+    - vpnserver
+
+- name: Create new log directory
+  file:
+    path: /var/log/{{ _BASENAME }}/{{ item }}
+    state: directory
+    recurse: true
+  become: true
+  loop:
+    - packet_log
+    - security_log
+    - server_log
+
+- name: Create symlink to log directory
+  file:
+    path: /usr/local/{{ _BASENAME }}/{{ item }}
+    src: /var/log/{{ _BASENAME }}/{{ item }}
+    state: link
+  become: true
+  loop:
+    - packet_log
+    - security_log
+    - server_log
+
+- name: Deploy service script
+  template:
+    src: vpnserver.service
+    dest: /usr/lib/systemd/system/
+  become: true
+
+- name: Deploy environment file
+  template:
+    src: vpnserver
+    dest: /etc/sysconfig/
+  become: true
+
+- name: Enable systemd changes
+  systemd_service:
+    name: vpnserver
+    enabled: true
+    state: stopped
+    daemon-reload: true
+  become: true
