@@ -14,3 +14,5 @@ DS389_SUFFIX:           'dc=example,dc=com' # backend-userroot.suffix
 DS389_SERVICE_NAME: "dirsrv@{{ DS389_INSTANCE_NAME }}"
 #------------------- xrdp ------------------
 XRDP_MAX_BPP:           32
+#------------------- docker ----------------
+DOCKER_ENABLED_FOR_ANYONE:  True  # Ordinary user can access docker daemon.
