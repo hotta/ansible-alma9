@@ -1,4 +1,4 @@
-# Ansible playbooks to build various features 
+# Ansible playbooks to provide a variety of functions.
 
 ## Minimum requirements
 
@@ -43,7 +43,7 @@ $ ansible-galaxy collection install -r requirements.yml
 
 I recommend you to take a vagrant snapshot at this point.
 
-## Exceution
+## Execution
 
 ```
 $ cd ansible-alma9
