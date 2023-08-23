@@ -13,6 +13,14 @@
     src: ds-template.txt
     dest: /tmp
 
+- name: Show effective entries of /tmp/ds-template.txt
+  command: grep -vE '(^[;#]|^$)' /tmp/ds-template.txt
+  register: ds_temp
+
+- debug: msg="Will deploy by using these setting values..."
+
+- debug: var=ds_temp.stdout_lines
+
 - name: Check existence of slapd instance
   command: dsctl {{ DS389_INSTANCE_NAME }} status
   become: yes
