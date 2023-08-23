@@ -16,3 +16,22 @@ DS389_SERVICE_NAME: "dirsrv@{{ DS389_INSTANCE_NAME }}"
 XRDP_MAX_BPP:           32
 #------------------- docker ----------------
 DOCKER_ENABLED_FOR_ANYONE:  True  # Ordinary user can access docker daemon.
+# --------------- private CA ------------
+PCA_ROOTCA_NAME:    'root-ca'
+PCA_DOMAIN_SUFFIX:  'example.org'
+PCA_COUNTRY_NAME:   'JP'
+PCA_ORG_NAME:       'example ORG'
+PCA_COMMON_NAME:    'example CA'
+PCA_ROOTCA_HOME:    "/tmp/{{ PCA_ROOTCA_NAME }}"
+PCA_ROOTCA_HOME:    "{{ PCA_ROOTCA_HOME }}/{{ PCA_ROOTCA_NAME }}"
+PCA_ROOTCA_DEFAULT_DAYS:    10950           # 365 * 30
+PCA_ROOTCA_DEFAULT_CRL_DAYS:    "{{ PCA_ROOTCA_DEFAULT_DAYS }}"
+PCA_HOSTNAME;       'git-new'
+PCA_SUBCA_NAME:     'sub-ca'
+PCA_SUBCA_HOME:     "/tmp/{{ PCA_SUBCA_NAME }}"
+PCA_SSL_BITCOUNT:   2048
+# ---------------- gitlab ----------------
+GITLAB_VERSION:         '16.2.4'
+GITLAB_PACKAGE_DIR: 'https://packages.gitlab.com/gitlab/gitlab-ee/packages/el/9'
+GITLAB_PACKAGE_NAME:    'gitlab-ee-16.2.4-ee.0.el9.x86_64.rpm'
+GITLAB_FQDN:        "gitlab.{{ PCA_DOMAIN_SUFFIX }}"

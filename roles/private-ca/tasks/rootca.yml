@@ -1,0 +1,177 @@
+---
+- name: roles/private-ca/tasks/certs.yml
+  set_fact: dummy=0
+
+- name: Prepare working directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+  loop:
+    - "{{ ROOTCA_HOME }}"
+    - "{{ SUBCA_HOME }}"
+
+- name: 設定ファイルの設置
+  template:
+    src: server.conf
+    dest: "{{ SSL_SERVER_HOME }}/{{ item.dest }}"
+  loop:
+    - { src: proxy1.conf  , dest: "{{ PROXY1_HOST }}.conf"  }
+    - { src: proxy2.conf  , dest: "{{ PROXY2_HOST }}.conf"  }
+
+# --------------------------- ROOT CA ---------------------------------
+
+- name: ルートCAのディレクトリ構成(P.35)
+  file:
+    path: "{{ ROOTCA_HOME }}/{{ item.name }}"
+    mode: "{{ item.mode }}"
+    recurse: yes
+    state: directory
+  loop:
+    - { name: certs,    mode: 755 }
+    - { name: db,       mode: 755 }
+    - { name: private,  mode: 700 }
+
+- name: ROOT CA - index の作成
+  file: 
+    path: "{{ ROOTCA_HOME }}/db/index"
+    state: touch
+
+- name: ROOT CA - serial の存在確認
+  stat:
+    path: "{{ ROOTCA_HOME }}/db/serial"
+  register: serial
+
+- name: ROOT CA - シリアルファイルがなければ設置
+  shell: openssl rand -hex 16 > {{ ROOTCA_HOME }}/db/serial
+  when:
+    serial.stat.exists == false
+
+- name: ROOT CA - crlnumber の作成
+  shell: echo {{ ROOTCA_CRL_NUMBER }} > {{ ROOTCA_HOME }}/db/crlnumber
+
+- name: root-ca 用設定ファイルの設置
+  template:
+    src: root-ca.conf
+    dest: "{{ ROOTCA_HOME }}/"
+
+# ---------------------------- SUB CA ---------------------------------
+
+- name: SUB CA - サブCAのディレクトリ構成(P.39)
+  file:
+    path: "{{ SUBCA_HOME }}/{{ item.name }}"
+    mode: "{{ item.mode }}"
+    recurse: yes
+    state: directory
+  loop:
+    - { name: certs,    mode: 755 }
+    - { name: db,       mode: 755 }
+    - { name: private,  mode: 700 }
+
+- name: SUB CA - index の作成
+  file: 
+    path: "{{ SUBCA_HOME }}/db/index"
+    state: touch
+
+- name: SUB CA - serial の存在確認
+  stat:
+    path: "{{ SUBCA_HOME }}/db/serial"
+  register: serial
+
+- name: SUB CA - シリアルファイルがなければ設置
+  shell: openssl rand -hex 16 > {{ SUBCA_HOME }}/db/serial
+  when:
+    serial.stat.exists == false
+
+- name: SUB CA - crlnumber の作成
+  shell: echo {{ SUBCA_CRL_NUMBER }} > {{ SUBCA_HOME }}/db/crlnumber
+
+- name: sub-ca 用設定ファイルの設置
+  template:
+    src: sub-ca.conf
+    dest: "{{ SUBCA_HOME }}/"
+
+# ==== 以下バッチスクリプト ======
+
+# ルート証明書を作り直した場合、各ユーザ（ブラウザ利用者）への配布が必要になる。
+# 可能な限り、前回作成・保存したルート証明書を設置して、これを使い回すこと。
+
+- name: ルート証明書の存在確認
+  stat:
+    path: "{{ ROOTCA_HOME }}/{{ ROOTCA_CERT }}"
+  register: rootca
+
+- name: ルートCAの生成（鍵とCSR）
+  command: openssl req -new -config root-ca.conf \
+    -out {{ ROOTCA_CSR }} \
+    -keyout private/{{ ROOTCA_KEY }}
+  args:
+    chdir: "{{ ROOTCA_HOME }}" 
+  when: not rootca.stat.exists
+
+- name: ルートCAの生成（自己署名証明書）
+  command: openssl ca -selfsign -config root-ca.conf \
+    -batch \
+    -in  {{ ROOTCA_CSR  }} \
+    -out {{ ROOTCA_CERT }} \
+    -extensions ca_ext
+  args:
+    chdir: "{{ ROOTCA_HOME }}"
+  when: not rootca.stat.exists
+
+- name: 下位CAの生成（鍵とCSR）
+  command: openssl req -new -config sub-ca.conf \
+    -out {{ SUBCA_CSR }} \
+    -keyout private/{{ SUBCA_KEY }}
+  args:
+    chdir: "{{ SUBCA_HOME }}"
+  when: rootca.stat.exists == false
+
+- name: ルートCAで下位CAの証明書を発行する
+  command: openssl ca -config ../root-ca/root-ca.conf \
+    -batch \
+    -in  {{ SUBCA_CSR }} \
+    -out {{ SUBCA_CERT }} \
+    -extensions sub_ca_ext
+  args:
+    chdir: "{{ SUBCA_HOME }}"
+
+- name: 各サーバ鍵とCSR の生成
+  command: openssl req -new -config {{ item }}.conf \
+    -out {{ item }}.csr \
+    -keyout {{ item }}.key
+  args:
+    chdir: "{{ SSL_SERVER_HOME }}" 
+  loop:
+    - "{{ PROXY1_HOST }}"
+    - "{{ PROXY2_HOST }}"
+
+- name: サーバ証明書の発行
+  command: openssl ca -config {{ SUBCA_HOME }}/sub-ca.conf \
+    -batch \
+    -in {{ item }}.csr \
+    -out {{ item }}.crt \
+    -extensions server_ext
+  args:
+    chdir: "{{ SSL_SERVER_HOME }}" 
+  loop:
+    - "{{ PROXY1_HOST }}"
+    - "{{ PROXY2_HOST }}"
+
+- name: 証明書格納領域の準備
+  file:
+    path: "{{ SSL_FILESTORAGE }}"
+    state: directory
+
+- name: 証明書の保存
+  copy:
+    src: "{{ SSL_SERVER_HOME }}/{{ item }}"
+    dest: "{{ SSL_FILESTORAGE }}"
+    remote_src: yes
+  loop:
+    - "{{ ROOTCA_NAME }}/{{ ROOTCA_CERT }}"
+    - "{{ SUBCA_NAME }}/{{ SUBCA_CERT }}"
+    - "{{ PROXY1_HOST }}.key"
+    - "{{ PROXY1_HOST }}.crt"
+    - "{{ PROXY2_HOST }}.key"
+    - "{{ PROXY2_HOST }}.crt"

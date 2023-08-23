@@ -1,0 +1,16 @@
+---
+- name: roles/gitlab/tasks/main.yml
+  meta: noop
+
+# https://about.gitlab.com/install/#almalinux
+
+- name: Check if gitlab rpm package already downloaded
+  stat:
+    path: /tmp/{{ GITLAB_PACKAGE_NAME }}
+  register: package
+
+- name: Get gitlab rpm package
+  get_url:
+    url: "{{ GITLAB_PACKAGE_DIR }}/{{ GITLAB_PACKAGE_NAME }}"
+    dest: /tmp/{{ GITLAB_PACKAGE_NAME }}
+  when: not package.stat.exists
