@@ -1,6 +1,6 @@
 ---
 - name: roles/popular/tasks/main.yml
-  meta: noop
+  assert: { that: true, quiet: true }
 
 - name: Install dependency for gitlab
   dnf:

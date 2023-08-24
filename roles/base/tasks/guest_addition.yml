@@ -1,6 +1,6 @@
 ---
 - name: roles/base/tasks/main.yml
-  set_fact: dummy=0
+  assert: { that: true, quiet: true }
 
 - name: Install guest addition
   dnf:

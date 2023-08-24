@@ -1,6 +1,6 @@
 ---
 - name: roles/docker/tasks/main.yml
-  meta: noop
+  assert: { that: true, quiet: true }
 
 - name: Install Docker Repository
   get_url:

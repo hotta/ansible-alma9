@@ -1,6 +1,6 @@
 ---
 - name: roles/base/tasks/mandatory.yml
-  meta: noop
+  assert: { that: true, quiet: true }
 
 - name: Install mandatory packages
   dnf: 

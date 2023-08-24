@@ -1,6 +1,6 @@
 ---
 - name: roles/389ds/tasks/main.yml
-  meta: noop
+  assert: { that: true, quiet: true }
 
 - name: Install 389ds
   dnf:

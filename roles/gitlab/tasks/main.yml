@@ -1,6 +1,6 @@
 ---
 - name: roles/gitlab/tasks/main.yml
-  meta: noop
+  assert: { that: true, quiet: true }
 
 # https://about.gitlab.com/install/#almalinux
 

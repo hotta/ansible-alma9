@@ -1,7 +1,7 @@
 # Basic Congiguration Control
 ---
 - name: roles/base/tasks/main.yml
-  meta: noop
+  assert: { that: true, quiet: true }
 
 # dnf config-manager --set-enabled crb
 - name: Enable CRB(CodeReady Linux Builder) repository

@@ -1,6 +1,6 @@
 ---
 - name: roles/base/tasks/selinux.yml
-  meta: noop
+  assert: { that: true, quiet: true }
 
 - name: Install tools required for disabling selinux
   dnf: 
@@ -14,4 +14,4 @@
   become: yes
 
 - name: Note that selinux will never be disabled by this way on RHEL9 and its derivatives. We've just made it "permissive".
-  meta: noop
+  assert: { that: true, quiet: true }
