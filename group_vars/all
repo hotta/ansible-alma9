@@ -25,10 +25,22 @@ PCA_COMMON_NAME:    'example CA'
 PCA_ROOTCA_HOME:    "/tmp/{{ PCA_ROOTCA_NAME }}"
 PCA_ROOTCA_DEFAULT_DAYS:    10950           # 365 * 30
 PCA_ROOTCA_DEFAULT_CRL_DAYS:    "{{ PCA_ROOTCA_DEFAULT_DAYS }}"
-PCA_HOSTNAME:       'git-new'
+PCA_ROOTCA_CRL_NUMBER:      10001
+PCA_ROOTCA_KEY:     'root-ca.key'
+PCA_ROOTCA_CSR:     'root-ca.csr'
+PCA_ROOTCA_CERT:    'root-ca.crt'
 PCA_SUBCA_NAME:     'sub-ca'
 PCA_SUBCA_HOME:     "/tmp/{{ PCA_SUBCA_NAME }}"
-PCA_SSL_BITCOUNT:   2048
+PCA_SUBCA_DEFAULT_DAYS:     "{{ PCA_ROOTCA_DEFAULT_DAYS }}"
+PCA_SUBCA_DEFAULT_CRL_DAYS: "{{ PCA_ROOTCA_DEFAULT_CRL_DAYS }}"
+PCA_SUBCA_CRL_NUMBER:       10001
+PCA_SUBCA_KEY:      'sub-ca.key'
+PCA_SUBCA_CSR:      'sub-ca.csr'
+PCA_SUBCA_CERT:     'sub-ca.crt'
+PCA_SSL_BITCOUNT:           2048
+PCA_HOSTNAME:       'server1'
+PCA_HOSTNAME2:      'server2'               # not enabled by default
+PCA_SERVER_HOME:    "/tmp/{{ PCA_DOMAIN_SUFFIX }}"
 # ---------------- gitlab ----------------
 GITLAB_VERSION:         '16.2.4'
 GITLAB_PACKAGE_DIR: 'https://packages.gitlab.com/gitlab/gitlab-ee/packages/el/9'

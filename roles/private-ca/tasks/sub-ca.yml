@@ -1,0 +1,56 @@
+---
+- name: roles/private-ca/tasks/sub-ca.yml
+  assert: { that: true, quiet: true }
+
+- name: Create directory structure for sub-ca (P.39)
+  file:
+    path: "{{ PCA_SUBCA_HOME }}/{{ item.name }}"
+    mode: "{{ item.mode }}"
+    recurse: yes
+    state: directory
+  loop:
+    - { name: certs,    mode: 755 }
+    - { name: db,       mode: 755 }
+    - { name: private,  mode: 700 }
+
+- name: SUB CA - create index 
+  file: 
+    path: "{{ PCA_SUBCA_HOME }}/db/index"
+    state: touch
+
+- name: SUB CA - check if serial file exists
+  stat:
+    path: "{{ PCA_SUBCA_HOME }}/db/serial"
+  register: serial
+
+- name: SUB CA - Set serial file if not exists
+  shell: openssl rand -hex 16 > {{ PCA_SUBCA_HOME }}/db/serial
+  when:
+    serial.stat.exists == false
+
+- name: SUB CA - create crlnumber if not exist
+  template:
+    src: crlnumber-sub
+    dest: "{{ PCA_SUBCA_HOME }}/db/crlnumber"
+    force: false
+
+- name: SUB CA - set config file for openssl
+  template:
+    src: sub-ca.conf
+    dest: "{{ PCA_SUBCA_HOME }}/"
+
+- name: SUB CA - Create sub-ca (key and csr)
+  command: openssl req -new -config sub-ca.conf \
+    -out {{ PCA_SUBCA_CSR }} \
+    -keyout private/{{ PCA_SUBCA_KEY }}
+  args:
+    chdir: "{{ PCA_SUBCA_HOME }}"
+
+- name: SUB CA - Create sub-ca (Issue sub-ca cert under root-ca)
+  command: openssl ca -config ../root-ca/root-ca.conf \
+    -batch \
+    -in  {{ PCA_SUBCA_CSR }} \
+    -out {{ PCA_SUBCA_CERT }} \
+    -extensions sub_ca_ext
+  args:
+    chdir: "{{ PCA_SUBCA_HOME }}"

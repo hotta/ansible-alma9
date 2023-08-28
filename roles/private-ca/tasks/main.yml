@@ -1,11 +1,19 @@
 ---
 - name: roles/private-ca/tasks/main.yml
-  meta: noop
+  assert: { that: true, quiet: true }
 
 - name: Check if rootca has already been created
   stat:
-    path: "{{ PCA_ROOTCA_NAME }}"
+    path: "{{ PCA_ROOTCA_HOME }}"
   register: rootca_home
 
-- import_tasks: rootca.yml
+- import_tasks: root-ca.yml
   when: not rootca_home.stat.exists
+
+- name: Check if sub has already been created
+  stat:
+    path: "{{ PCA_SUBCA_HOME }}"
+  register: subca_home
+
+- import_tasks: sub-ca.yml
+  when: not subca_home.stat.exists

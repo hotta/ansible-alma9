@@ -1,0 +1,13 @@
+---
+- name: roles/server-cert/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+- name: Check if sever certs have already been created
+  stat:
+    path: "{{ PCA_SERVER_HOME }}"
+  register: server_home
+  tags: server
+
+- import_tasks: server.yml
+  when: not server_home.stat.exists
+  tags: server

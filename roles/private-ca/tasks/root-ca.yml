@@ -1,0 +1,56 @@
+---
+- name: roles/private-ca/tasks/root-ca.yml
+  assert: { that: true, quiet: true }
+
+- name: Create directory structure for root-ca (P.35)
+  file:
+    path: "{{ PCA_ROOTCA_HOME }}/{{ item.name }}"
+    mode: "{{ item.mode }}"
+    recurse: yes
+    state: directory
+  loop:
+    - { name: certs,    mode: 755 }
+    - { name: db,       mode: 755 }
+    - { name: private,  mode: 700 }
+
+- name: ROOT CA - create index 
+  file: 
+    path: "{{ PCA_ROOTCA_HOME }}/db/index"
+    state: touch
+
+- name: ROOT CA - check if serial file exists
+  stat:
+    path: "{{ PCA_ROOTCA_HOME }}/db/serial"
+  register: serial
+
+- name: ROOT CA - Create serial file if not exist
+  shell: openssl rand -hex 16 > {{ PCA_ROOTCA_HOME }}/db/serial
+  when:
+    serial.stat.exists == false
+
+- name: ROOT CA - create crlnumber if not exist
+  template:
+    src: crlnumber-root
+    dest: "{{ PCA_ROOTCA_HOME }}/db/crlnumber"
+    force: false
+
+- name: ROOT CA - Set config file for openssl
+  template:
+    src: root-ca.conf
+    dest: "{{ PCA_ROOTCA_HOME }}/"
+
+- name: ROOT CA - Create root-ca (key and csr)
+  command: openssl req -new -config root-ca.conf \
+    -out {{ PCA_ROOTCA_CSR }} \
+    -keyout private/{{ PCA_ROOTCA_KEY }}
+  args:
+    chdir: "{{ PCA_ROOTCA_HOME }}" 
+
+- name: ROOT CA - Create root-ca (self-signed cert)
+  command: openssl ca -selfsign -config root-ca.conf \
+    -batch \
+    -in  {{ PCA_ROOTCA_CSR  }} \
+    -out {{ PCA_ROOTCA_CERT }} \
+    -extensions ca_ext
+  args:
+    chdir: "{{ PCA_ROOTCA_HOME }}"

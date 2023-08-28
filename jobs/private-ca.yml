@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  roles:
+    - { role: private-ca,   tags: private-ca         }
+    - { role: server-cert,  tags: server-cert        }
