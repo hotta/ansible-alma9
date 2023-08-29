@@ -43,6 +43,6 @@ PCA_HOSTNAME2:      'server2'               # not enabled by default
 PCA_SERVER_HOME:    "/tmp/{{ PCA_DOMAIN_SUFFIX }}"
 # ---------------- gitlab ----------------
 GITLAB_VERSION:         '16.2.4'
-GITLAB_PACKAGE_DIR: 'https://packages.gitlab.com/gitlab/gitlab-ee/packages/el/9'
-GITLAB_PACKAGE_NAME:    'gitlab-ee-16.2.4-ee.0.el9.x86_64.rpm'
+GITLAB_GPG_KEY:     'RPM-GPG-KEY-Gitlab-{{ GITLAB_VERSION }}'
+GITLAB_PACKAGE_VER:     'gitlab-ee-16.2.4-ee.0.el9'
 GITLAB_FQDN:        "gitlab.{{ PCA_DOMAIN_SUFFIX }}"

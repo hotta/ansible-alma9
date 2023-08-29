@@ -2,15 +2,35 @@
 - name: roles/gitlab/tasks/main.yml
   assert: { that: true, quiet: true }
 
-# https://about.gitlab.com/install/#almalinux
+# See. https://about.gitlab.com/install/#almalinux
 
-- name: Check if gitlab rpm package already downloaded
-  stat:
-    path: /tmp/{{ GITLAB_PACKAGE_NAME }}
-  register: package
+- name: Deploy repository file
+  copy:
+    src: gitlab-ee.repo
+    dest: /etc/yum.repos.d/
+  become: yes
+# Preset gpgcheck=0 in repo file
 
-- name: Get gitlab rpm package
-  get_url:
-    url: "{{ GITLAB_PACKAGE_DIR }}/{{ GITLAB_PACKAGE_NAME }}"
-    dest: /tmp/{{ GITLAB_PACKAGE_NAME }}
-  when: not package.stat.exists
+- name: Create yum cache for binary
+  dnf:
+    update_cache: true
+    disablerepo: '*'
+    enablerepo: gitlab_gitlab-ee
+  become: yes
+
+- name: Create yum cache for source
+  dnf:
+    update_cache: true
+    disablerepo: '*'
+    enablerepo: gitlab_gitlab-ee-source
+  become: yes
+
+- name: Install gitlab
+  dnf:
+    name: "{{ GITLAB_PACKAGE_VER }}"
+  environment:
+    EXTERNAL_URL: https://{{ GITLAB_FQDN }}
+  become: true
+
+- name: Gitlab was successfully installed. You can log in to https://{{ GITLAB_FQDN }} as root. Its password is written in /etc/gitlab/initial_root_password. 
+  assert: { that: true, quiet: true }

@@ -10,8 +10,9 @@ To create AlmaLinux-9 vagrant machine on Windows11:
 PS> cat Vagrantfile
 Vagrant.configure("2") do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.provider "virtualbox" do |hv|
-    hv.memory = "2048"
+  config.vm.provider "virtualbox" do |vb|
+    vb.cpu = "1"
+    vb.memory = "2048"
   end
   config.vm.define "alma9" do |alma9|
     alma9.vm.box = "generic/alma9"
@@ -20,6 +21,8 @@ Vagrant.configure("2") do |config|
 end
 PS> vagrant up
 ```
+
+If you want to run gitlab, the VM needs 6GB+ memory.
 
 ### User and permissions to run
 
@@ -44,6 +47,9 @@ $ ansible-galaxy collection install -r requirements.yml
 I recommend you to take a vagrant snapshot at this point.
 
 ## Execution
+
+First, read README(s) at roles/XXX (XXX corresponds XXX.yml) if any, then follow the instructions. 
+And then run:
 
 ```
 $ cd ansible-alma9
