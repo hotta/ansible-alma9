@@ -8,23 +8,13 @@ The auto configuration of web server for maintaining the CA, such as OCSP (Onlin
 First, confirm your organization and change if needed.
 
 ```
-$ cd ~/ansible-alma9/group_vars
-$ cat private-ca.yml.tmpl               # Confirmation
-$ cp private-ca.yml.tmpl private-ca.yml # only to change default values
-$ vi pricate-ca.yml                     # - do -
+$ cd ~/ansible-alma9/host_vars
+$ cat localhost.yml.tmpl              # confirm default values
+$ cp localhost.yml.tmpl localhost.yml # only to change default values
+$ vi localhost.yml                      # - do -
 ```
 
-If you want to use more than one server(s), modify the following:
-
-- group_vars/pricate-ca.yml
-    - PCA_HOSTNAME2, PCA_HOSTNAME3 ... (enable multiple servers)
-- roles/private-ca/templates/{root,sub}-ca.conf
-    - alt_names section
-    - name_constraints section
-- roles/server-cert/templates
-    - create server2.conf, server3.conf by copying server2.conf.tmpl
-
-TODO: The automatic configuration for multiple servers is not implemented.
+TODO: The automatic configuration for multiple servers.
 
 ## Execution
 
@@ -38,8 +28,7 @@ It will create following files IF THEY ARE NOT EXISTS.
 - /tmp/root-ca/private/root-ca.key ( Root Certificate )
 - /tmp/sub-ca/private/sub-ca.key ( Intermediate Certificate )
 - /tmp/DOMAIN/SERVERNAME1.{key,csr,crt} - Server Certificate
-- /tmp/DOMAIN/SERVERNAME2.{key,csr,crt} - Server Certificate(if server2 is enabled)
-- /tmp/DOMAIN/SERVERNAME3.{key,csr,crt} - Server Certificate(if server3 is enabled)
+- /tmp/DOMAIN/SERVERNAME2.{key,csr,crt} - Server Certificate
 
 If you want to run this role several times with try and error, 
 please delete /tmp/root-ca and /tmp/sub-ca recursively before each run.
