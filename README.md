@@ -58,4 +58,4 @@ $ ansible-playbook jobs/XXX.yml
 
 ## Individual configuration
 
-- If you want to deploy a gitlab server, please read oles/gitlab/README.md first.
+- If you want to deploy a gitlab server, please read roles/gitlab/README.md first.

@@ -1,12 +1,12 @@
 # Deploying gitlab
 
-1. Open group_vars/all using any editor to check the value of GITLAB_FQDN (default to "gitlab.example.org"). If you want to change, create custum config file host_vars/localhost.yml and redefine in it.
-2. Append an entry of GITLAB_FQDN to your /etc/hosts.
+1. Create host_vars/localhost.yml.tmpl by copying localhost.yml.tmpl.
+2. Open host_vars/localhost.yml using any editor to check the value of GITLAB_FQDN (default to "gitlab.example.org"). You may change "PCA_HOSTNAME" into any value. Do not change GITLAB_FQDN directly.
 3. Run "ansible-playbook jobs/gitlab.yml" to deploy gitlab-ee.
 
 # Before first login
 
-Gitlab's root password is auto-generated and written in /etc/gitlab/initial_root_password, which is very long one. This file exists in 24 hours.
+Gitlab's root password is auto-generated and written in /etc/gitlab/initial_root_password, which is very long one. This file only exists in 24 hours.
 Although, you can reset root password right now by doing following instruction.
 
 ```
@@ -32,4 +32,7 @@ irb(main):005:0> exit
 # the first login
 
 1. Using your browser, Visit GITLAB_FQDN.
-2. Login as root using the password above.
+2. Login as root using the password you specified above.
+
+# Login using glab command
+
