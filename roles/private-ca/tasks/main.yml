@@ -2,6 +2,8 @@
 - name: roles/private-ca/tasks/main.yml
   assert: { that: true, quiet: true }
 
+- debug: var=PCA_HOSTNAME
+
 - name: Check if rootca has already been created
   stat:
     path: "{{ PCA_ROOTCA_HOME }}"

@@ -1,49 +1,40 @@
 ---
-- name: roles/private-ca/tasks/certs.yml
+- name: roles/server-cert/tasks/server.yml
   assert: { that: true, quiet: true }
-
-# --- Try and Error start ---
-
-# fileglob runs at project directory basis.
-- name: Remember conf file names
-  set_fact:
-    confs: "{{ 'roles/server-cert/templates/*.conf' | fileglob }}"
-
-- debug: var=confs
-
-- name: Extract basenames without extentions
-  set_fact:
-    confs: "{{ item | regex_replace('roles/server-cert/templates/', '') }}"
-  loop: "{{ confs }}"
-
-- debug: var=confs
-
-# --- Try and Error end ---
 
 - name: Prepare working directory
   file:
     path: "{{ PCA_SERVER_HOME }}"
     state: directory
 
-- name: Server certs - Set config file for openssl
+- name: Server certs for server1 - Set config file for openssl
   template:
-    src: "{{ item }}"
-    dest: "{{ PCA_SERVER_HOME }}/"
-  with_fileglob: '../templates/*.conf'
-  tags: server
+    src: server1.conf
+    dest: "{{ PCA_SERVER_HOME }}/{{ PCA_HOSTNAME }}.conf"
 
-- name: Create keys and csrs for each server(s)
-  command: openssl req -new -config server1.conf \
-    -out server1.csr \
-    -keyout server1.key
+- name: Server certs for server2 - Set config file for openssl
+  template:
+    src: server2.conf
+    dest: "{{ PCA_SERVER_HOME }}/{{ PCA_HOSTNAME2 }}.conf"
+
+- name: Create keys and csrs for server1,2
+  command: openssl req -new -config {{ item }}.conf \
+    -out {{ item }}.csr \
+    -keyout {{ item }}.key
   args:
     chdir: "{{ PCA_SERVER_HOME }}" 
+  loop:
+    - "{{ PCA_HOSTNAME }}"
+    - "{{ PCA_HOSTNAME2 }}"
 
 - name: Issue server certs under our sub-ca
   command: openssl ca -config {{ PCA_SUBCA_HOME }}/sub-ca.conf \
     -batch \
-    -in server1.csr \
-    -out server1.crt \
+    -in {{ item }}.csr \
+    -out {{ item }}.crt \
     -extensions server_ext
   args:
     chdir: "{{ PCA_SERVER_HOME }}" 
+  loop:
+    - "{{ PCA_HOSTNAME }}"
+    - "{{ PCA_HOSTNAME2 }}"

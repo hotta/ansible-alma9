@@ -55,3 +55,7 @@ And then run:
 $ cd ansible-alma9
 $ ansible-playbook jobs/XXX.yml
 ```
+
+## Individual configuration
+
+- If you want to deploy a gitlab server, please read oles/gitlab/README.md first.
