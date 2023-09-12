@@ -1,0 +1,26 @@
+---
+- name: roles/xdebug/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+- name: Install dependencies from remi
+  dnf:
+    name:
+      - php-xdebug
+  become: yes
+
+- name: depploy xdebug settings
+  template:
+    src: 15-xdebug.ini
+    dest: /etc/php.d/
+  become: yes
+  notify: restart httpd
+
+- name: deploy xdebug.sh 
+  template:
+    src: xdebug.sh
+    dest: /usr/local/bin
+    mode: 0755
+  become: yes
+
+- name: === Use xdebug.sh on/off to enable/disable xdebug ===
+  assert: { that: true, quiet: true }

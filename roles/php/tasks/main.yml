@@ -1,0 +1,48 @@
+---
+- name: roles/php/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+# See ../README.md
+
+- name: enabled the CRB repository
+  command: dnf config-manager --set-enabled crb
+  become: yes
+
+- name: Import GPG key for remi repository
+  rpm_key:
+    key: https://rpms.remirepo.net/enterprise/9/RPM-GPG-KEY-remi
+  become: yes
+
+- name: install the Remi repository configuration package8
+  dnf:
+    name: https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+    disable_gpg_check: false
+  become: yes
+
+- name: enable the module stream for {{ PHP_STREAM }} - 1/2
+  shell: yes | dnf module reset php
+  become: yes
+
+- name: enable the module stream for {{ PHP_STREAM }} - 2/2
+  shell: yes | dnf module install php:{{ PHP_STREAM }}
+  become: yes
+
+- name: Install PHP {{ PHP_VERSION }} from Remi
+  dnf:
+    name:
+      - php
+      - php-pdo
+      - php-pecl-zip
+      - php-gd
+      - php-intl
+      - php-mysqlnd
+      - php-mcrypt
+      - php-pecl-mongodb
+    state: present
+  become: yes
+
+# - name: deploy php.ini
+#   template:
+#     src:    php.ini
+#     dest:   /etc/
+#   become: yes

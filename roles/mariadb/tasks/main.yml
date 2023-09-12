@@ -1,0 +1,53 @@
+---
+- name: roles/mariadb/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+- name: Deploy mariadb.repo
+  template:
+    src: mariadb.repo
+    dest: /etc/yum.repos.d/
+  become: yes
+
+- name: Install mariadb server packages
+  dnf: 
+    name:
+      - MariaDB-server
+      - python3-PyMySQL
+      - python3-psycopg2
+  become: yes
+
+- name: Autostart mariadb 
+  systemd: 
+    name:     mariadb
+    state:    started 
+    enabled:  yes
+  become: yes
+
+- name: Set MariaDB's root password
+  mysql_user:
+    login_unix_socket:  "{{ MARIADB_SOCKET }}"
+    name: root
+    password: "{{ MARIADB_ROOT_PW }}"
+  become: yes
+  tags: set_password
+
+- name: Customize /root/.my.cnf
+  template:
+    src: my.cnf
+    dest: /root/.my.cnf
+  become: yes
+
+- name: Deploy customized server.cnf
+  template:
+    src: server.cnf
+    dest: /etc/my.cnf.d/
+  become: yes
+
+- name: Restarting mariadb for applying changes
+  systemd: 
+    name:     mariadb
+    state:    restarted 
+    enabled:  yes
+  become: yes
+
+- import_tasks: init.yml

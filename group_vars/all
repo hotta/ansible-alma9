@@ -48,3 +48,19 @@ GITLAB_PACKAGE_VER:     'gitlab-ee-16.2.4-ee.0.el9'
 GITLAB_FQDN:        "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"
 GITLAB_GLAB_RPM:    'glab_1.32.0_Linux_x86_64.rpm'
 GITLAB_GLAB_URL:    "https://gitlab.com/gitlab-org/cli/-/releases/v1.32.0/downloads/{{ GITLAB_GLAB_RPM }}"
+# ---------------- mariadb ---------------
+MARIADB_VER:        '10.11'
+MARIADB_ROOT_PW:    ''
+MARIADB_SOCKET:         /var/lib/mysql/mysql.sock
+MARIADB_HOST:           "127.0.0.1"
+MARIADB_PORT:           3306
+MARIADB_OPTIONS:        '?autoReconnect=true'
+MARIADB_MAX_ALLOWED_PACKET:   '10M'
+MARIADB_SORT_BUFFER_SIZE:     '10M'
+MARIADB_READ_BUFFER_SIZE:     '256K'
+MARIADB_READ_RND_BUFFER_SIZE: '256K'
+# ------------------ php -----------------
+PHP_VERSION:        '8.2'
+PHP_REMI_REPO_URL:  'https://rpms.remirepo.net/enterprise/remi-release-8.rpm'
+PHP_STREAM:         'remi-{{ PHP_VERSION }}'
+PHP_MEMORY_LIMIT:   '1024M'
