@@ -1,0 +1,14 @@
+---
+- name: roles/httpd/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+- name: Install httpd
+  dnf:
+    name: httpd
+  become: true
+
+- name: Start httpd
+  systemd:
+    name: httpd
+    state: started
+  become: true

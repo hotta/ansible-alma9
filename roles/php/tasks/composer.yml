@@ -1,0 +1,22 @@
+---
+- name: roles/php/tasks/composer.yml
+  assert: { that: true, quiet: true }
+
+- name: Get Composer and deploy
+  get_url: 
+    url:  https://getcomposer.org/composer.phar 
+    dest: "{{ PHP_COMPOSER_BIN }}"
+    mode: 0755
+    force: no
+    validate_certs: no
+  become: yes
+  tags: composer
+
+- name: Use https://packagist.jp for faster access
+  community.general.composer: 
+    command: config
+    arguments: -g repos.packagist composer https://packagist.jp
+    composer_executable: "{{ PHP_COMPOSER_BIN }}"
+    global_command: yes
+  become: yes
+  tags: packagist
