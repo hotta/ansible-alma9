@@ -41,10 +41,8 @@
     state: present
   become: yes
 
-# - name: deploy php.ini
-#   template:
-#     src:    php.ini
-#     dest:   /etc/
-#   become: yes
-
-- import_tasks: composer.yml
+- name: deploy php.ini
+  template:
+    src:    php.ini
+    dest:   /etc/
+  become: yes
