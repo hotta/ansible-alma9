@@ -70,3 +70,9 @@ LARAVEL_PROJECT_NAME:   'laravel-example'
 LARAVEL_BASEDIR:        '{{ ansible_user_dir }}/{{ LARAVEL_PROJECT_NAME }}'
 LARAVEL_BASEURL:        '/laravel'
 LARAVEL_GROUP_NAME:     'laravel'
+# --------------- terreract --------------
+# fast: "Value for money" in speed vs accuracy, integer models
+# best: best results on Google’s eval data, slower, Float models.
+# legacy: legacy, integer models
+# See also: https://tesseract-ocr.github.io/tessdoc/Data-Files.html
+TERRERACT_MODEL:    'best'  # select one of (best|fast|legacy)

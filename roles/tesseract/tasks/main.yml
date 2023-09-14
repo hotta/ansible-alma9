@@ -1,0 +1,122 @@
+---
+- name: roles/tesseract/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+- name: Install tesseract
+  dnf:
+    name: tesseract
+  become: true
+
+- name: Set vars array
+  set_fact:
+    TESSDATA:
+      - name: english_best
+        suffix: _best
+        slug: _best
+        filename: eng.traineddata
+      - name: jpn_best
+        suffix: _best
+        slug: _best
+        filename: jpn.traineddata
+      - name: jpn_vert_best
+        suffix: _best
+        slug: _best
+        filename: jpn_vert.traineddata
+      - name: eng_fast
+        suffix: _fast
+        slug: _fast
+        filename: eng.traineddata
+      - name: jpn_vert_fast
+        suffix: _fast
+        slug: _fast
+        filename: jpn_vert.traineddata
+      - name: jpn_fast
+        suffix: _fast
+        slug: _fast
+        filename: jpn.traineddata
+      - name: eng_legacy
+        suffix: _legacy
+        slug: ""
+        filename: eng.traineddata
+      - name: jpn_legacy
+        suffix: _legacy
+        slug: ""
+        filename: jpn.traineddata
+      - name: jpn_vert_legacy
+        suffix: _legacy
+        slug: ""
+        filename: jpn_vert.traineddata
+
+- name: Prepare directories for each models
+  file:
+    path: /usr/share/tesseract/tessdata{{ item.suffix }}
+    state: directory
+  become: true
+  loop: "{{ TESSDATA }}"
+
+- name: loop test
+  debug:
+    var:
+      - item.suffix
+      - item.slug
+      - item.model
+      - item.filename
+    verbosity: 2
+  loop: "{{ TESSDATA }}"
+
+- name: Download tessdata 
+  get_url:
+    url: https://github.com/tesseract-ocr/tessdata{{ item.slug }}/raw/main/{{ item.filename }}
+    dest: /usr/share/tesseract/tessdata{{ item.suffix }}
+  become: true
+  loop: "{{ TESSDATA }}"
+
+- name: Get md5sum of english trained data
+  stat:
+    path: /usr/share/tesseract/tessdata/eng.traineddata
+  register: eng
+
+# - debug: var=eng
+
+- name: Remove english trained data derived from original rpm package
+  file:
+    path: /usr/share/tesseract/tessdata/eng.traineddata
+    state: absent
+  when: eng.stat.exists and eng.stat.isreg
+  become: true
+
+- name: Create symlinks according to the TERRERACT_MODEL(best)
+  file:
+    path: /usr/share/tesseract/tessdata/{{ item }}
+    src:  /usr/share/tesseract/tessdata_best/{{ item }}
+    state: link
+  become: true
+  loop:
+    - eng.traineddata
+    - jpn.traineddata
+    - jpn_vert.traineddata
+  when: TERRERACT_MODEL == 'best'
+
+- name: Create symlinks according to the TERRERACT_MODEL(fast)
+  file:
+    path: /usr/share/tesseract/tessdata/{{ item }}
+    src:  /usr/share/tesseract/tessdata_fast/{{ item }}
+    state: link
+  become: true
+  loop:
+    - eng.traineddata
+    - jpn.traineddata
+    - jpn_vert.traineddata
+  when: TERRERACT_MODEL == 'fast'
+
+- name: Create symlinks according to the TERRERACT_MODEL(legacy)
+  file:
+    path: /usr/share/tesseract/tessdata/{{ item }}
+    src:  /usr/share/tesseract/tessdata_legacy/{{ item }}
+    state: link
+  become: true
+  loop:
+    - eng.traineddata
+    - jpn.traineddata
+    - jpn_vert.traineddata
+  when: TERRERACT_MODEL == 'legacy'
