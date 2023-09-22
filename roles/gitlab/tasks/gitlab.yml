@@ -50,6 +50,14 @@
     line: ^127.0.0.1  {{ GITLAB_FQDN }}
   become: true
 
+- name: Fix gitlab version
+  lineinfile:
+    path: /etc/dnf/dnf.conf
+    regexp: excludepkgs=gitlab-ee
+    line: excludepkgs=gitlab-ee
+  become: true
+
+
 - name: Gitlab was successfully installed.
   assert: { that: true, quiet: true }
 
