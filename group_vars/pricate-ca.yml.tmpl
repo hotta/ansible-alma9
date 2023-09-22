@@ -4,4 +4,4 @@ PCA_COMMON_NAME:    'example CA'
 PCA_HOSTNAME:       'server1'
 PCA_HOSTNAME2:      'server2'   # the 2nd server to create cert for.
 # PCA_HOSTNAME3:      'server3' # the 3nd server if any.
-GITLAB_FQDN:        "gitlab.{{ PCA_DOMAIN_SUFFIX }}"
+GITLAB_FQDN:        "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"
