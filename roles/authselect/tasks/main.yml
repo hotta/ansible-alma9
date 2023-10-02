@@ -1,0 +1,12 @@
+---
+- name: roles/authselect/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+- import_tasks: authselect.yml
+  when: AS_ENABLED
+
+- set_fact:
+    msg: "Caution: AS_ENABLED is False. Please read roles/authselect/README.md first."
+
+- debug: var=msg
+  when: not AS_ENABLED

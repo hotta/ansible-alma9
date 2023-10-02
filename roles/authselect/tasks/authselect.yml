@@ -1,0 +1,20 @@
+---
+#
+# Sample task to enable LDAP Auth
+#
+- name: roles/authselect/tasks/authselect.yml
+  assert: { that: true, quiet: true }
+
+- name: Install sssd
+  dnf:
+    name: 
+      - sssd
+      - sssd-tools
+  become: true
+
+- name: Check if authselect profile is already activated
+  command: authselect check
+  become: true
+  register: as_check
+
+- debug: var=as_check
