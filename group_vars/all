@@ -3,6 +3,7 @@
 TIME_ZONE:     'Asia/Tokyo'
 TIME_SERVER:   'ntp.nict.jp'
 ENABLE_CRB:    True
+ALMA_MAJOR:     9
 # ------------------ 389ds ------------------
 DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
 DS389_CONFIG:           999999999                   # general.defaults
@@ -84,3 +85,7 @@ AS_LDAP_URI:        'ldap://localhost'
 AS_LDAP_BASEDN:     '{{ DS389_SUFFIX }}'
 AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
 AD_LDAP_BINDPW:     '{{ DS389_ROOT_PASSWORD }}'
+# --------------- PostgreSQL --------------
+PG_VERSION:         15
+PG_REPO_KEY_URL_BASE:    'https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG'
+PG_REPO_URL:    'https://download.postgresql.org/pub/repos/yum/reporpms/EL-{{ ALMA_MAJOR }}-x86_64/pgdg-redhat-repo-latest.noarch.rpm'

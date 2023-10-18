@@ -1,0 +1,70 @@
+---
+- name: roles/postgresql/tasks/postgresql.yml
+  assert: { that: true, quiet: true }
+
+- name: Check if built-in PostgreSQL module was already disabled
+  shell: dnf module list | grep postgresql | grep {{ PG_VERSION }}
+  become: true
+  register: pg_module
+
+# - debug: var=pg_module
+
+- name: Install dependency
+  dnf:
+    name: perl-IPC-Run
+    enablerepo: crb
+  become: true
+
+- name: Import rpm keys
+  rpm_key:
+    key: "{{ PG_REPO_KEY_URL_BASE }}-{{ item }}"
+    state: present
+  become: true
+  loop:
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
+  when: pg_module.rc != 0
+
+- name: Install PGDF repo
+  dnf:
+    name: "{{ PG_REPO_URL }}"
+  become: true
+  when: pg_module.rc != 0
+
+- name: Disable the built-in PostgreSQL module
+  command: dnf -qy module disable postgresql
+  become: true
+  when: pg_module.rc != 0
+
+- name: Install PostgreSQL
+  dnf:
+    name: 
+      - "postgresql{{ PG_VERSION }}-server"
+      - "postgresql{{ PG_VERSION }}-devel"
+    state: present
+  become: true
+  when: pg_module.rc != 0
+
+- name: Check if initdb has already done.
+  stat:
+    path: "/var/lib/pgsql/{{ PG_VERSION }}/data/PG_VERSION"
+  become: true
+  register: pg_version
+
+# - debug: var=pg_version
+
+- name: Create a new PostgreSQL database cluster.
+  command: postgresql-15-setup initdb
+  when: not pg_version.stat.exists
+  become: true
+
+- name: Start and enable postgresql by default
+  systemd:
+    name: "postgresql-{{ PG_VERSION }}"
+    state: started
+    enabled: true
+  become: true
