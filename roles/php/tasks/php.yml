@@ -4,7 +4,7 @@
 
 # See ../README.md
 
-- name: enabled the CRB repository
+- name: enable the CRB repository
   command: dnf config-manager --set-enabled crb
   become: yes
 
@@ -36,6 +36,7 @@
       - php-gd
       - php-intl
       - php-mysqlnd
+      - php-pgsql
       - php-mcrypt
       - php-pecl-mongodb
     state: present
