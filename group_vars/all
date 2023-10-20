@@ -69,7 +69,7 @@ PHP_MEMORY_LIMIT:   '1024M'
 PHP_COMPOSER_BIN:   '/usr/local/bin/composer'
 # ---------------- laravel ---------------
 LARAVEL_PROJECT_NAME:   'laravel-example'
-LARAVEL_BASEDIR:        '{{ ansible_user_dir }}/{{ LARAVEL_PROJECT_NAME }}'
+LARAVEL_BASEDIR:        '/opt/{{ LARAVEL_PROJECT_NAME }}'
 LARAVEL_BASEURL:        '/laravel'
 LARAVEL_GROUP_NAME:     'laravel'
 # --------------- terreract --------------

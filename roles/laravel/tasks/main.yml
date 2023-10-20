@@ -12,6 +12,12 @@
     name: "{{ LARAVEL_GROUP_NAME }}"
   become: yes
 
+- name: make /opt writable
+  file:
+    path: /opt
+    mode: o+w
+  become: true
+
 - name: Create laravel example project
   composer:
     command: create-project 
