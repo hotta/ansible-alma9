@@ -25,7 +25,7 @@
       - npm
       - joe
       - perl-ExtUtils-MakeMaker
-      - tcpdump
+      - wireshark
       - strace
       - libsmi
       - jq
