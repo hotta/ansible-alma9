@@ -10,7 +10,7 @@
 
 - name: Deploy template file to /tmp
   template:
-    src: simple.inf
+    src: advanced.inf
     dest: "{{ DS389_TEMPLATE_PATH }}"
 
 - name: Show effective entries of {{ DS389_TEMPLATE_PATH }}

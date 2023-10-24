@@ -37,7 +37,7 @@ PCA_HOSTNAME2:      'server2'   # secondary host name to create cert for.
 PCA_SERVER_HOME:    "{{ PCA_BASEDIR }}/{{ PCA_DOMAIN_SUFFIX }}"
 # ------------------ 389ds ------------------
 DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
-DS389_CONFIG:           999999999                   # general.defaults
+DS389_CONFIG_VERSION:   999999999                   # general.defaults
 DS389_SUFFIX:           'dc=example,dc=com' # backend-userroot.suffix
 DS389_SERVICE_NAME:     "dirsrv@{{ DS389_INSTANCE_NAME }}"
 DS389_FQDN:             "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"    # general.full_machine_name

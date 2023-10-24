@@ -7,7 +7,7 @@ You can overwrite these values by creating host_vars/localhost.yml and writing e
 ```
 $ grep ^DS389 group_vars/all
 DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
-DS389_CONFIG:   999999999                   # general.defaults
+DS389_CONFIG_VERSION:   999999999                   # general.defaults
 DS389_FQDN:     "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"    # general.full_machine_name
 DS389_INSTANCE_NAME:    'localhost'         # slapd.instance_name
 DS389_ROOT_DN:  'cn=Directory Manager'      # slapd.root_dn = BIND DN
