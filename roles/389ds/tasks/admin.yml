@@ -1,0 +1,17 @@
+---
+- name: roles/389ds/tasks/admin.yml
+  assert: { that: true, quiet: true }
+
+- name: Create .ldappass file
+  template:
+    src: ldappass
+    dest: /root/.ldappass
+    mode: 0600
+  become: true 
+
+- name: Create .dsrc file
+  template:
+    src: dsrc
+    dest: /root/.dsrc
+    mode: 0600
+  become: true 
