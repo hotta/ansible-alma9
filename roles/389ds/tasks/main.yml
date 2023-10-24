@@ -34,7 +34,8 @@
   command: dsctl {{ DS389_INSTANCE_NAME }} stop
   become: yes
   when: 
-    - not check_instance.failed or DS389_FORCE_CREATE
+    - not check_instance.failed
+  ignore_errors: yes
 
 - name: Delete current instance if exists
   command: dsctl {{ DS389_INSTANCE_NAME }} remove --do-it
