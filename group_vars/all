@@ -4,27 +4,19 @@ TIME_ZONE:     'Asia/Tokyo'
 TIME_SERVER:   'ntp.nict.jp'
 ENABLE_CRB:    True
 ALMA_MAJOR:     9
-# ------------------ 389ds ------------------
-DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
-DS389_CONFIG:           999999999                   # general.defaults
-DS389_FQDN:     "{{ ansible_facts['nodename'] }}"   # general.full_machine_name
-DS389_INSTANCE_NAME:    'localhost'         # slapd.instance_name
-DS389_ROOT_DN:  'cn=Directory Manager'      # slapd.root_dn = BIND DN
-DS389_ROOT_PASSWORD:    'Directory_Manager_Password'    # slapd.root_password
-DS389_SAMPLE_ENTRIES:   'yes'               # backend-userroot.sample_entries
-DS389_SUFFIX:           'dc=example,dc=com' # backend-userroot.suffix
-DS389_SERVICE_NAME:     "dirsrv@{{ DS389_INSTANCE_NAME }}"
 #------------------- xrdp ------------------
 XRDP_MAX_BPP:           32
 #------------------- docker ----------------
 DOCKER_ENABLED_FOR_ANYONE:  True  # Ordinary user can access docker daemon.
 # --------------- private CA ------------
+PCA_BASEDIR:        "{{ ansible_user_dir }}/private-ca"
+PCA_FORCE_CREATE:   False         # overwrite existing keys and certs
 PCA_ROOTCA_NAME:    'root-ca'
-PCA_DOMAIN_SUFFIX:  'example.org'
+PCA_DOMAIN_SUFFIX:  'example.com'
 PCA_COUNTRY_NAME:   'JP'
-PCA_ORG_NAME:       'example ORG'
+PCA_ORG_NAME:       'example COM'
 PCA_COMMON_NAME:    'example CA'
-PCA_ROOTCA_HOME:    "/tmp/{{ PCA_ROOTCA_NAME }}"
+PCA_ROOTCA_HOME:    "{{ PCA_BASEDIR }}/{{ PCA_ROOTCA_NAME }}"
 PCA_ROOTCA_DEFAULT_DAYS:    10950           # 365 * 30
 PCA_ROOTCA_DEFAULT_CRL_DAYS:    "{{ PCA_ROOTCA_DEFAULT_DAYS }}"
 PCA_ROOTCA_CRL_NUMBER:      10001
@@ -32,7 +24,7 @@ PCA_ROOTCA_KEY:     'root-ca.key'
 PCA_ROOTCA_CSR:     'root-ca.csr'
 PCA_ROOTCA_CERT:    'root-ca.crt'
 PCA_SUBCA_NAME:     'sub-ca'
-PCA_SUBCA_HOME:     "/tmp/{{ PCA_SUBCA_NAME }}"
+PCA_SUBCA_HOME:     "{{ PCA_BASEDIR }}/{{ PCA_SUBCA_NAME }}"
 PCA_SUBCA_DEFAULT_DAYS:     "{{ PCA_ROOTCA_DEFAULT_DAYS }}"
 PCA_SUBCA_DEFAULT_CRL_DAYS: "{{ PCA_ROOTCA_DEFAULT_CRL_DAYS }}"
 PCA_SUBCA_CRL_NUMBER:       10001
@@ -40,9 +32,19 @@ PCA_SUBCA_KEY:      'sub-ca.key'
 PCA_SUBCA_CSR:      'sub-ca.csr'
 PCA_SUBCA_CERT:     'sub-ca.crt'
 PCA_SSL_BITCOUNT:           2048
-PCA_HOSTNAME:       'server1'
-PCA_HOSTNAME2:      'server2'
-PCA_SERVER_HOME:    "/tmp/{{ PCA_DOMAIN_SUFFIX }}"
+PCA_HOSTNAME:       "{{ ansible_facts['nodename'] }}"   # primary host name
+PCA_HOSTNAME2:      'server2'   # secondary host name to create cert for.
+PCA_SERVER_HOME:    "{{ PCA_BASEDIR }}/{{ PCA_DOMAIN_SUFFIX }}"
+# ------------------ 389ds ------------------
+DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
+DS389_CONFIG:           999999999                   # general.defaults
+DS389_SUFFIX:           'dc=example,dc=com' # backend-userroot.suffix
+DS389_SERVICE_NAME:     "dirsrv@{{ DS389_INSTANCE_NAME }}"
+DS389_FQDN:             "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"    # general.full_machine_name
+DS389_INSTANCE_NAME:    'localhost'         # slapd.instance_name
+DS389_ROOT_DN:          'cn=Directory Manager'      # slapd.root_dn = BIND DN
+DS389_ROOT_PASSWORD:    'Directory_Manager_Password'    # slapd.root_password
+DS389_SAMPLE_ENTRIES:   'yes'               # backend-userroot.sample_entries
 # ---------------- gitlab ----------------
 GITLAB_VERSION:         '16.3.4'
 GITLAB_GPG_KEY:     'RPM-GPG-KEY-Gitlab-{{ GITLAB_VERSION }}'
@@ -51,8 +53,8 @@ GITLAB_FQDN:        "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"
 GITLAB_GLAB_RPM:    'glab_1.33.0_Linux_x86_64.rpm'
 GITLAB_GLAB_URL:    "https://gitlab.com/gitlab-org/cli/-/releases/v1.33.0/downloads/{{ GITLAB_GLAB_RPM }}"
 # ---------------- mariadb ---------------
-MARIADB_VER:        '10.11'
-MARIADB_ROOT_PW:    ''
+MARIADB_VER:            '10.11'
+MARIADB_ROOT_PW:        ''
 MARIADB_SOCKET:         /var/lib/mysql/mysql.sock
 MARIADB_HOST:           "127.0.0.1"
 MARIADB_PORT:           3306

@@ -17,9 +17,10 @@
   command: grep -vE '(^[;#]|^$)' /tmp/ds-template.txt
   register: ds_temp
 
-- debug: msg="Will deploy by using these setting values..."
-
 - debug: var=ds_temp.stdout_lines
+
+- debug: 
+    msg: We will deploy 389ds instance by using these setting values above...
 
 - name: Check existence of slapd instance
   command: dsctl {{ DS389_INSTANCE_NAME }} status
@@ -33,8 +34,7 @@
   command: dsctl {{ DS389_INSTANCE_NAME }} stop
   become: yes
   when: 
-    - not check_instance.failed
-    - DS389_FORCE_CREATE
+    - not check_instance.failed or DS389_FORCE_CREATE
 
 - name: Delete current instance if exists
   command: dsctl {{ DS389_INSTANCE_NAME }} remove --do-it
@@ -54,6 +54,9 @@
     immediate: true
     offline: true
     permanent: true
-    service: ldap
+    service: "{{ item }}"
     state: enabled
   become: yes
+  loop:
+    - ldap
+    - ldaps

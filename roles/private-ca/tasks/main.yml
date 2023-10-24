@@ -4,6 +4,13 @@
 
 - debug: var=PCA_HOSTNAME
 
+- name: Delete base directory
+  file:
+    path: "{{ PCA_BASEDIR }}"
+    state: absent
+  become: True
+  when: PCA_FORCE_CREATE
+
 - name: Check if rootca has already been created
   stat:
     path: "{{ PCA_ROOTCA_HOME }}"

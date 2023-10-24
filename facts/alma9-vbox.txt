@@ -2,7 +2,7 @@ localhost | SUCCESS => {
     "ansible_facts": {
         "ansible_all_ipv4_addresses": [
             "10.0.2.15",
-            "192.168.56.4"
+            "192.168.56.6"
         ],
         "ansible_all_ipv6_addresses": [],
         "ansible_apparmor": {
@@ -22,7 +22,7 @@ localhost | SUCCESS => {
         "ansible_chassis_vendor": "Oracle Corporation",
         "ansible_chassis_version": "NA",
         "ansible_cmdline": {
-            "BOOT_IMAGE": "(hd0,msdos1)/vmlinuz-5.14.0-162.22.2.el9_1.x86_64",
+            "BOOT_IMAGE": "(hd0,msdos1)/vmlinuz-5.14.0-284.30.1.el9_2.x86_64",
             "biosdevname": "0",
             "crashkernel": "1G-4G:192M,4G-64G:256M,64G-:512M",
             "net.ifnames": "0",
@@ -36,25 +36,25 @@ localhost | SUCCESS => {
             "vga": "792"
         },
         "ansible_date_time": {
-            "date": "2023-05-25",
-            "day": "25",
-            "epoch": "1684987808",
-            "epoch_int": "1684987808",
-            "hour": "04",
-            "iso8601": "2023-05-25T04:10:08Z",
-            "iso8601_basic": "20230525T041008614725",
-            "iso8601_basic_short": "20230525T041008",
-            "iso8601_micro": "2023-05-25T04:10:08.614725Z",
-            "minute": "10",
-            "month": "05",
-            "second": "08",
-            "time": "04:10:08",
-            "tz": "UTC",
-            "tz_dst": "UTC",
-            "tz_offset": "+0000",
-            "weekday": "木曜日",
-            "weekday_number": "4",
-            "weeknumber": "21",
+            "date": "2023-10-24",
+            "day": "24",
+            "epoch": "1698103754",
+            "epoch_int": "1698103754",
+            "hour": "08",
+            "iso8601": "2023-10-23T23:29:14Z",
+            "iso8601_basic": "20231024T082914355483",
+            "iso8601_basic_short": "20231024T082914",
+            "iso8601_micro": "2023-10-23T23:29:14.355483Z",
+            "minute": "29",
+            "month": "10",
+            "second": "14",
+            "time": "08:29:14",
+            "tz": "JST",
+            "tz_dst": "JST",
+            "tz_offset": "+0900",
+            "weekday": "火曜日",
+            "weekday_number": "2",
+            "weeknumber": "43",
             "year": "2023"
         },
         "ansible_default_ipv4": {
@@ -82,23 +82,23 @@ localhost | SUCCESS => {
                     "dm-uuid-LVM-5bOiPdSPr0kl0P7lSulVvDzmZIOfFCvyXVwpiO2QE2HIp1XXxA9NNa95pWaimvBx"
                 ],
                 "sda": [
-                    "ata-VBOX_HARDDISK_VB28152d98-530eae5f",
-                    "scsi-0ATA_VBOX_HARDDISK_VB28152d98-530eae5f",
-                    "scsi-1ATA_VBOX_HARDDISK_VB28152d98-530eae5f",
-                    "scsi-SATA_VBOX_HARDDISK_VB28152d98-530eae5f"
+                    "ata-VBOX_HARDDISK_VB62d4ef25-fde8c563",
+                    "scsi-0ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563",
+                    "scsi-1ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563",
+                    "scsi-SATA_VBOX_HARDDISK_VB62d4ef25-fde8c563"
                 ],
                 "sda1": [
-                    "ata-VBOX_HARDDISK_VB28152d98-530eae5f-part1",
-                    "scsi-0ATA_VBOX_HARDDISK_VB28152d98-530eae5f-part1",
-                    "scsi-1ATA_VBOX_HARDDISK_VB28152d98-530eae5f-part1",
-                    "scsi-SATA_VBOX_HARDDISK_VB28152d98-530eae5f-part1"
+                    "ata-VBOX_HARDDISK_VB62d4ef25-fde8c563-part1",
+                    "scsi-0ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part1",
+                    "scsi-1ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part1",
+                    "scsi-SATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part1"
                 ],
                 "sda2": [
-                    "ata-VBOX_HARDDISK_VB28152d98-530eae5f-part2",
+                    "ata-VBOX_HARDDISK_VB62d4ef25-fde8c563-part2",
                     "lvm-pv-uuid-qSn7bg-I1Gn-H6J7-I11Y-JrVs-uhCi-XoNFDz",
-                    "scsi-0ATA_VBOX_HARDDISK_VB28152d98-530eae5f-part2",
-                    "scsi-1ATA_VBOX_HARDDISK_VB28152d98-530eae5f-part2",
-                    "scsi-SATA_VBOX_HARDDISK_VB28152d98-530eae5f-part2"
+                    "scsi-0ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part2",
+                    "scsi-1ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part2",
+                    "scsi-SATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part2"
                 ]
             },
             "labels": {
@@ -191,10 +191,10 @@ localhost | SUCCESS => {
                 "host": "",
                 "links": {
                     "ids": [
-                        "ata-VBOX_HARDDISK_VB28152d98-530eae5f",
-                        "scsi-0ATA_VBOX_HARDDISK_VB28152d98-530eae5f",
-                        "scsi-1ATA_VBOX_HARDDISK_VB28152d98-530eae5f",
-                        "scsi-SATA_VBOX_HARDDISK_VB28152d98-530eae5f"
+                        "ata-VBOX_HARDDISK_VB62d4ef25-fde8c563",
+                        "scsi-0ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563",
+                        "scsi-1ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563",
+                        "scsi-SATA_VBOX_HARDDISK_VB62d4ef25-fde8c563"
                     ],
                     "labels": [],
                     "masters": [],
@@ -206,10 +206,10 @@ localhost | SUCCESS => {
                         "holders": [],
                         "links": {
                             "ids": [
-                                "ata-VBOX_HARDDISK_VB28152d98-530eae5f-part1",
-                                "scsi-0ATA_VBOX_HARDDISK_VB28152d98-530eae5f-part1",
-                                "scsi-1ATA_VBOX_HARDDISK_VB28152d98-530eae5f-part1",
-                                "scsi-SATA_VBOX_HARDDISK_VB28152d98-530eae5f-part1"
+                                "ata-VBOX_HARDDISK_VB62d4ef25-fde8c563-part1",
+                                "scsi-0ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part1",
+                                "scsi-1ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part1",
+                                "scsi-SATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part1"
                             ],
                             "labels": [
                                 "boot"
@@ -232,11 +232,11 @@ localhost | SUCCESS => {
                         ],
                         "links": {
                             "ids": [
-                                "ata-VBOX_HARDDISK_VB28152d98-530eae5f-part2",
+                                "ata-VBOX_HARDDISK_VB62d4ef25-fde8c563-part2",
                                 "lvm-pv-uuid-qSn7bg-I1Gn-H6J7-I11Y-JrVs-uhCi-XoNFDz",
-                                "scsi-0ATA_VBOX_HARDDISK_VB28152d98-530eae5f-part2",
-                                "scsi-1ATA_VBOX_HARDDISK_VB28152d98-530eae5f-part2",
-                                "scsi-SATA_VBOX_HARDDISK_VB28152d98-530eae5f-part2"
+                                "scsi-0ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part2",
+                                "scsi-1ATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part2",
+                                "scsi-SATA_VBOX_HARDDISK_VB62d4ef25-fde8c563-part2"
                             ],
                             "labels": [],
                             "masters": [
@@ -270,27 +270,31 @@ localhost | SUCCESS => {
         "ansible_distribution_file_path": "/etc/redhat-release",
         "ansible_distribution_file_variety": "RedHat",
         "ansible_distribution_major_version": "9",
-        "ansible_distribution_release": "Lime Lynx",
-        "ansible_distribution_version": "9.1",
+        "ansible_distribution_release": "Turquoise Kodkod",
+        "ansible_distribution_version": "9.2",
         "ansible_dns": {
             "nameservers": [
-                "10.0.2.3"
+                "8.8.8.8"
             ],
             "options": {
                 "single-request-reopen": true
-            }
+            },
+            "search": [
+                "example.com"
+            ]
         },
-        "ansible_domain": "",
+        "ansible_domain": "example.com",
         "ansible_effective_group_id": 1000,
         "ansible_effective_user_id": 1000,
         "ansible_env": {
             "BASH_FUNC_which%%": "() {  ( alias;\n eval ${which_declare} ) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@\n}",
             "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
             "DEBUGINFOD_URLS": "https://debuginfod.centos.org/ ",
+            "GIT_BRANCH": "main",
             "HISTCONTROL": "ignoredups",
             "HISTSIZE": "100000",
             "HOME": "/home/vagrant",
-            "HOSTNAME": "cmdb4",
+            "HOSTNAME": "ldap.example.com",
             "LANG": "ja_JP.UTF-8",
             "LESSOPEN": "||/usr/bin/lesspipe.sh %s",
             "LOGNAME": "vagrant",
@@ -300,22 +304,26 @@ localhost | SUCCESS => {
             "OLDPWD": "/home/vagrant/ansible-alma9",
             "PATH": "/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin",
             "PWD": "/home/vagrant/ansible-alma9/facts",
-            "SELINUX_LEVEL_REQUESTED": "",
-            "SELINUX_ROLE_REQUESTED": "",
-            "SELINUX_USE_CURRENT_RANGE": "",
             "SHELL": "/bin/bash",
             "SHLVL": "2",
-            "SSH_CLIENT": "192.168.56.1 51302 22",
-            "SSH_CONNECTION": "192.168.56.1 51302 192.168.56.4 22",
-            "SSH_TTY": "/dev/pts/3",
+            "SSH_CLIENT": "192.168.56.1 49240 22",
+            "SSH_CONNECTION": "192.168.56.1 49240 192.168.56.6 22",
+            "SSH_TTY": "/dev/pts/1",
             "S_COLORS": "auto",
             "TERM": "xterm",
             "USER": "vagrant",
             "XDG_RUNTIME_DIR": "/run/user/1000",
             "XDG_SESSION_CLASS": "user",
-            "XDG_SESSION_ID": "8",
+            "XDG_SESSION_ID": "5",
             "XDG_SESSION_TYPE": "tty",
             "_": "/usr/bin/python3.11",
+            "__GIT_PROMPT_IGNORE_STASH": "0",
+            "__GIT_PROMPT_IGNORE_SUBMODULES": "0",
+            "__GIT_PROMPT_SHOW_CHANGED_FILES_COUNT": "1",
+            "__GIT_PROMPT_SHOW_TRACKING": "1",
+            "__GIT_PROMPT_SHOW_UNTRACKED_FILES": "",
+            "__GIT_PROMPT_SHOW_UPSTREAM": "0",
+            "__GIT_PROMPT_WITH_USERNAME_AND_REPO": "0",
             "which_declare": "declare -f"
         },
         "ansible_eth0": {
@@ -477,13 +485,13 @@ localhost | SUCCESS => {
             },
             "hw_timestamp_filters": [],
             "ipv4": {
-                "address": "192.168.56.4",
+                "address": "192.168.56.6",
                 "broadcast": "192.168.56.255",
                 "netmask": "255.255.255.0",
                 "network": "192.168.56.0",
                 "prefix": "24"
             },
-            "macaddress": "08:00:27:a0:6f:dd",
+            "macaddress": "08:00:27:bb:9b:ef",
             "module": "e1000",
             "mtu": 1500,
             "pciid": "0000:00:08.0",
@@ -495,8 +503,8 @@ localhost | SUCCESS => {
         "ansible_fibre_channel_wwn": [],
         "ansible_fips": false,
         "ansible_form_factor": "Other",
-        "ansible_fqdn": "cmdb4",
-        "ansible_hostname": "cmdb4",
+        "ansible_fqdn": "ldap.example.com",
+        "ansible_hostname": "ldap",
         "ansible_hostnqn": "",
         "ansible_interfaces": [
             "lo",
@@ -505,8 +513,8 @@ localhost | SUCCESS => {
         ],
         "ansible_is_chroot": false,
         "ansible_iscsi_iqn": "",
-        "ansible_kernel": "5.14.0-162.22.2.el9_1.x86_64",
-        "ansible_kernel_version": "#1 SMP PREEMPT_DYNAMIC Mon Mar 27 07:34:40 EDT 2023",
+        "ansible_kernel": "5.14.0-284.30.1.el9_2.x86_64",
+        "ansible_kernel_version": "#1 SMP PREEMPT_DYNAMIC Tue Sep 12 09:28:32 EDT 2023",
         "ansible_lo": {
             "active": true,
             "device": "lo",
@@ -591,25 +599,25 @@ localhost | SUCCESS => {
             "type": "loopback"
         },
         "ansible_loadavg": {
-            "15m": 0.0,
-            "1m": 0.0,
-            "5m": 0.0
+            "15m": 0.09,
+            "1m": 0.11,
+            "5m": 0.12
         },
         "ansible_local": {},
         "ansible_lsb": {},
         "ansible_lvm": "N/A",
         "ansible_machine": "x86_64",
-        "ansible_machine_id": "7f2521fe2bd64a3395f07de27c6c69ad",
-        "ansible_memfree_mb": 2059,
+        "ansible_machine_id": "a5cc2db0042049e2b869074bf3aa5d9f",
+        "ansible_memfree_mb": 833,
         "ansible_memory_mb": {
             "nocache": {
-                "free": 3114,
-                "used": 541
+                "free": 1317,
+                "used": 448
             },
             "real": {
-                "free": 2059,
-                "total": 3655,
-                "used": 1596
+                "free": 833,
+                "total": 1765,
+                "used": 932
             },
             "swap": {
                 "cached": 0,
@@ -618,46 +626,46 @@ localhost | SUCCESS => {
                 "used": 0
             }
         },
-        "ansible_memtotal_mb": 3655,
+        "ansible_memtotal_mb": 1765,
         "ansible_mounts": [
             {
-                "block_available": 31909900,
+                "block_available": 31585423,
                 "block_size": 4096,
                 "block_total": 32750977,
-                "block_used": 841077,
+                "block_used": 1165554,
                 "device": "/dev/mapper/alma-root",
                 "fstype": "xfs",
-                "inode_available": 65417746,
+                "inode_available": 65366076,
                 "inode_total": 65533952,
-                "inode_used": 116206,
+                "inode_used": 167876,
                 "mount": "/",
-                "options": "rw,seclabel,relatime,attr2,inode64,logbufs=8,logbsize=32k,noquota",
-                "size_available": 130702950400,
+                "options": "rw,relatime,attr2,inode64,logbufs=8,logbsize=32k,noquota",
+                "size_available": 129373892608,
                 "size_total": 134148001792,
                 "uuid": "6cb22972-a756-4dc6-b2e9-c35dcd95cc5f"
             },
             {
-                "block_available": 207999,
+                "block_available": 163690,
                 "block_size": 4096,
                 "block_total": 259584,
-                "block_used": 51585,
+                "block_used": 95894,
                 "device": "/dev/sda1",
                 "fstype": "xfs",
-                "inode_available": 523930,
+                "inode_available": 523913,
                 "inode_total": 524288,
-                "inode_used": 358,
+                "inode_used": 375,
                 "mount": "/boot",
-                "options": "rw,seclabel,relatime,attr2,inode64,logbufs=8,logbsize=32k,noquota",
-                "size_available": 851963904,
+                "options": "rw,relatime,attr2,inode64,logbufs=8,logbsize=32k,noquota",
+                "size_available": 670474240,
                 "size_total": 1063256064,
                 "uuid": "4ce61d5a-6942-4a97-b6a7-3e8421163156"
             }
         ],
-        "ansible_nodename": "cmdb4",
+        "ansible_nodename": "ldap.example.com",
         "ansible_os_family": "RedHat",
         "ansible_pkg_mgr": "dnf",
         "ansible_proc_cmdline": {
-            "BOOT_IMAGE": "(hd0,msdos1)/vmlinuz-5.14.0-162.22.2.el9_1.x86_64",
+            "BOOT_IMAGE": "(hd0,msdos1)/vmlinuz-5.14.0-284.30.1.el9_2.x86_64",
             "biosdevname": "0",
             "crashkernel": "1G-4G:192M,4G-64G:256M,64G-:512M",
             "net.ifnames": "0",
@@ -713,19 +721,15 @@ localhost | SUCCESS => {
         "ansible_real_group_id": 1000,
         "ansible_real_user_id": 1000,
         "ansible_selinux": {
-            "config_mode": "enforcing",
-            "mode": "enforcing",
-            "policyvers": 33,
-            "status": "enabled",
-            "type": "targeted"
+            "status": "disabled"
         },
         "ansible_selinux_python_present": true,
         "ansible_service_mgr": "systemd",
-        "ansible_ssh_host_key_ecdsa_public": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN3/EPu3pZl/paRLHsoa+MAxOpT4vh5Rf2J5J1d5rFrXF9keW90eAM7j3bBl4umkSuk3FKdSW3t7zD6H0ALJ38A=",
+        "ansible_ssh_host_key_ecdsa_public": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFT9naEhiYWnsCijesV01Qy4JxliRP9uVS4SaIHRDCW4ZxlB/tJIEqANE314ABSBo2ruG1KDb2NBReo4Vz2pdfw=",
         "ansible_ssh_host_key_ecdsa_public_keytype": "ecdsa-sha2-nistp256",
-        "ansible_ssh_host_key_ed25519_public": "AAAAC3NzaC1lZDI1NTE5AAAAIN0PACtw69vD08dozSO36L7nATSSCjnhnudp6tbTtk7Q",
+        "ansible_ssh_host_key_ed25519_public": "AAAAC3NzaC1lZDI1NTE5AAAAIL7La9HvOC6dwBHOL3Wdl1zybQWuh/Ct5hYBYBIBu9Ft",
         "ansible_ssh_host_key_ed25519_public_keytype": "ssh-ed25519",
-        "ansible_ssh_host_key_rsa_public": "AAAAB3NzaC1yc2EAAAADAQABAAABgQCOsIaQy32sl3HETd9FvshaGdETMj3UONAO8MLEtYqqno9Un324s4+D2b9rXQaQRqtTBwmepcP8bSHUx3e04o8BDS6zlC4+4iqUMZ9A4am9hYRZ6Wlnkbd93ahuDYseVa/MWg7l1CxySEPPZoqW+A5EL+HU5xzHQ5FRCOhUaSpLelNYfDulpQR9Wz3JZtQawsuxhKNisUZuKB/5kmauPX39WKj73B98o/oSOKZYkgL+jxxFTAyHAENoFIpESRS1vSa0AAFsn2jOx9C2neAA4I5CyjOqMH6Nj9byKAHoTpdZVQzLpJv/6yk3YKShT2f64zuSSiDGOMaoaI95HgHlxJs+J8zVzwfM6c0Ii7EYX03jXEtFGmFxP+TGIhzb8XgC0xzrVLIXrxjB3pFT+Pfj0doNvJeZak9LnOQaXHN8iSRPcl1NH78Ly+fSPC7RukJr4jbH0ValewKGxup7q6BnJG3LlxArQKqGyzgECzjuXk+bvAy7oO+zxgDIzl3fzQp1U/8=",
+        "ansible_ssh_host_key_rsa_public": "AAAAB3NzaC1yc2EAAAADAQABAAABgQDWSHErwMfXsOIOeLUehp+GtWCGfRBneHltJ8WifOxbDgkExd4Tp0765n80KBdBsSMe7NWCiYBHkDDO6XxmfBGYdwn0mwbD+1MO2gBWYDsM8LEx+qEYBZxKeONrzmpCwkkdoeiE39syLha/jMvvuLquTTu8mPk7CQWfypvlU48qUinA2zv+TtxTz5VtBV/C5CXkpBVa2YdrUa0TrKhORwUdYO3k+6SPvQ5FLySQGkjICFqTkdTJYuShkT55dGIjrfjPczC2ccfSFOTJyknj04baZp8J461qdpiqlmuLSEIo5LJHkTPzNIzgJIYfAHuFYIBq/BazGWdh8JtgbdM3GChrmNcZevEL1tZUyhqPmu1Q72eCNGgDbf3dPnUxgSGPwf41r4pA7RWTz9SHVvAK+FMr1DuyH+eDuxikg87eU4pJSoIXenw5zxOx+Uf1vCFVtP8mggPCa+u9Gc693p2gFEExwJYQCAGFwnH5/0KBj5t+tSMNwRpVlBmHB+i25qgjoMk=",
         "ansible_ssh_host_key_rsa_public_keytype": "ssh-rsa",
         "ansible_swapfree_mb": 2047,
         "ansible_swaptotal_mb": 2047,
@@ -735,7 +739,7 @@ localhost | SUCCESS => {
         ],
         "ansible_system_capabilities_enforced": "True",
         "ansible_system_vendor": "innotek GmbH",
-        "ansible_uptime_seconds": 14751,
+        "ansible_uptime_seconds": 956,
         "ansible_user_dir": "/home/vagrant",
         "ansible_user_gecos": "",
         "ansible_user_gid": 1000,

@@ -1,0 +1,13 @@
+---
+- name: roles/389ds/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+- debug: var=DS389_FQDN,        verbosity=1
+- debug: var=ansible_fqdn,      verbosity=1
+
+- name: Check if hostname matches {{ DS389_FQDN }}
+  fail:
+    msg: FQDN does not match "{{ DS389_FQDN }}"
+  when: ansible_fqdn != DS389_FQDN 
+
+- import_tasks: 389ds.yml

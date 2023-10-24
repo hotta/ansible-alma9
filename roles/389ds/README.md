@@ -7,19 +7,19 @@ You can overwrite these values by creating host_vars/localhost.yml and writing e
 ```
 $ grep ^DS389 group_vars/all
 DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
-DS389_CONFIG:           999999999                   # general.defaults
-DS389_FQDN:     "{{ ansible_facts['nodename'] }}"   # general.full_machine_name
+DS389_CONFIG:   999999999                   # general.defaults
+DS389_FQDN:     "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"    # general.full_machine_name
 DS389_INSTANCE_NAME:    'localhost'         # slapd.instance_name
 DS389_ROOT_DN:  'cn=Directory Manager'      # slapd.root_dn = BIND DN
 DS389_ROOT_PASSWORD:    'Directory_Manager_Password'    # slapd.root_password
 DS389_SAMPLE_ENTRIES:   'yes'               # backend-userroot.sample_entries
-DS389_SUFFIX:           'dc=example,dc=com' # backend-userroot.suffix
+DS389_SUFFIX:   "dc=example,dc=com"         # backend-userroot.suffix
 DS389_SERVICE_NAME:     "dirsrv@{{ DS389_INSTANCE_NAME }}"
 ```
 
 ## After deploying jobs/389ds.yml
 
-'/tmp/ds-template.txt' was used to create the LDAP instance.
+'/tmp/ds-template.txt' will be created and used to create the LDAP instance.
 
 To check if desired(specified) instance is up:
 
