@@ -45,6 +45,7 @@ DS389_INSTANCE_NAME:    'localhost'         # slapd.instance_name
 DS389_ROOT_DN:          'cn=Directory Manager'      # slapd.root_dn = BIND DN
 DS389_ROOT_PASSWORD:    'Directory_Manager_Password'    # slapd.root_password
 DS389_SAMPLE_ENTRIES:   'yes'               # backend-userroot.sample_entries
+DS389_TEMPLATE_PATH:    '/tmp/ds-template.inf'
 # ---------------- gitlab ----------------
 GITLAB_VERSION:         '16.3.4'
 GITLAB_GPG_KEY:     'RPM-GPG-KEY-Gitlab-{{ GITLAB_VERSION }}'

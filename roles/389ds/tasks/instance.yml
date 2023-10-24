@@ -8,13 +8,13 @@
     state: present
   become: yes
 
-- name: Deploy ds-template.txt to /tmp
+- name: Deploy template file to /tmp
   template:
-    src: ds-template.txt
-    dest: /tmp
+    src: simple.inf
+    dest: "{{ DS389_TEMPLATE_PATH }}"
 
-- name: Show effective entries of /tmp/ds-template.txt
-  command: grep -vE '(^[;#]|^$)' /tmp/ds-template.txt
+- name: Show effective entries of {{ DS389_TEMPLATE_PATH }}
+  command: grep -vE '(^[;#]|^$)' {{ DS389_TEMPLATE_PATH }}
   register: ds_temp
 
 - debug: var=ds_temp.stdout_lines
@@ -46,7 +46,7 @@
   tags: delete_instance
   
 - name: Create 389ds instance
-  command: dscreate from-file /tmp/ds-template.txt
+  command: dscreate from-file {{ DS389_TEMPLATE_PATH }}
   become: yes
   when: check_instance.failed or DS389_FORCE_CREATE
 
