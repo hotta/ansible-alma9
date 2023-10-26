@@ -1,0 +1,19 @@
+---
+- name: roles/postgresql/tasks/setup.yml
+  assert: { that: true, quiet: true }
+
+- name: Create remote_tmp directory for postgresql_user
+  file:
+    path: /var/lib/pgsql/.ansible/tmp
+    state: directory
+    recurse: true
+    mode: 0700
+    owner: postgres
+  become: true
+    
+- name: Create superuser
+  community.general.postgresql_user:
+    name: "{{ ansible_user_id }}"
+    role_attr_flags: SUPERUSER
+  become: true
+  become_user: postgres

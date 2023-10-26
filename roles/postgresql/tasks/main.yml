@@ -1,7 +1,6 @@
 ---
 - name: roles/postgresql/tasks/main.yml
   assert: { that: true, quiet: true }
-  failed_when: not ENABLE_CRB
 
-- name: run main task
-  import_tasks: postgresql.yml
+- import_tasks: install.yml
+- import_tasks: setup.yml
