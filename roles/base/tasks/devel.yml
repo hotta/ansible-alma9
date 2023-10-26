@@ -1,0 +1,13 @@
+---
+- name: roles/base/tasks/devel.yml
+  assert: { that: true, quiet: true }
+
+- name: Install libraries requuired for building python.
+  dnf:
+    name:
+      - bzip2-devel
+      - libffi-devel
+      - readline-devel
+      - sqlite-devel
+      - xz-devel
+  become: true

@@ -19,3 +19,4 @@
   tags: selinux
 - import_tasks: joe.yml
 - import_tasks: guest_addition.yml
+- import_tasks: devel.yml
