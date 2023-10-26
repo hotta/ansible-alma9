@@ -1,4 +1,6 @@
 dependencies:
+  - { role: mariadb ,     when: LARAVEL_DB_ENGINE == 'mysql'  }
+  - { role: postgresql ,  when: LARAVEL_DB_ENGINE == 'pgsql'  }
   - { role: php }
   - { role: httpd }
   - { role: service }
