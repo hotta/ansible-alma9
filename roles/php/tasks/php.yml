@@ -10,12 +10,12 @@
 
 - name: Import GPG key for remi repository
   rpm_key:
-    key: https://rpms.remirepo.net/enterprise/9/RPM-GPG-KEY-remi
+    key: https://{{ PHP_REMI_FQDN }}/enterprise/9/RPM-GPG-KEY-remi
   become: yes
 
 - name: install the Remi repository configuration package8
   dnf:
-    name: https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+    name: https://{{ PHP_REMI_FQDN }}/enterprise/remi-release-9.rpm
     disable_gpg_check: false
   become: yes
 
