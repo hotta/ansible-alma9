@@ -1,0 +1,61 @@
+---
+- name: roles/laravel/tasks/install.yml
+  assert: { that: true, quiet: true }
+
+- name: Check if directory exists {{ LARAVEL_BASEDIR }}
+  stat:
+    path: "{{ LARAVEL_BASEDIR }}"
+  register: laravel
+
+- name: Create unix group "{{ LARAVEL_GROUP_NAME }}"
+  group:
+    name: "{{ LARAVEL_GROUP_NAME }}"
+  become: yes
+
+- name: make /opt writable
+  file:
+    path: /opt
+    mode: o+w
+  become: true
+
+- name: Create laravel example project
+  composer:
+    command: create-project 
+    arguments: laravel/laravel {{ LARAVEL_BASEDIR }}
+    global_command: true
+  when: not laravel.stat.exists
+
+- name: Change httpd settings in order to accept URL={{ LARAVEL_BASEURL }}
+  template:
+    src: laravel.conf
+    dest: /etc/httpd/conf.d/
+  become: yes
+  notify: restart httpd
+
+- name: Change .htaccess settings in order to accept URL={{ LARAVEL_BASEURL }}
+  template:
+    src: htaccess_laravel
+    dest: "{{ LARAVEL_BASEDIR }}/public/.htaccess"
+  notify: restart httpd
+
+- name: loosen permission of runtime directories
+  file:
+    path: "{{ LARAVEL_BASEDIR }}/{{ item }}"
+    mode: 02777
+    group: "{{ LARAVEL_GROUP_NAME }}"
+    recurse: yes
+  become: yes
+  loop:
+    - storage
+    - bootstrap/cache
+  tags: chmod
+
+- name: loosen permission for httpd
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: o+x
+  become: yes
+  loop:
+    - "{{ LARAVEL_BASEDIR }}"
+    - "{{ ansible_user_dir }}"

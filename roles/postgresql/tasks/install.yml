@@ -27,6 +27,15 @@
   when: not pg_version.stat.exists
   become: true
 
+- name: Grant access from localhost
+  template:
+    src: pg_hba.conf
+    dest: /var/lib/pgsql/data/
+    mode: 0700
+    owner: postgres
+    group: postgres
+  become: true
+
 - name: Start and enable postgresql by default
   systemd:
     name: postgresql
