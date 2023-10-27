@@ -1,5 +1,4 @@
 dependencies:
   - base
-  - popular
   - private-ca
   - server-cert

@@ -33,6 +33,8 @@
       - python-dnf
       - python3-pip
       - ansible-lint
+      - perl
+      - postfix
   become: yes
 
 - name: Install additional packages for AlmaLinux
