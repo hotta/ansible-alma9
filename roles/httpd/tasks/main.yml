@@ -12,3 +12,15 @@
     name: httpd
     state: started
   become: true
+
+- name: Open firewall
+  ansible.posix.firewalld:
+    service: http
+    permanent: true
+    immediate: true
+    offline: true
+    state: enabled
+  become: True
+  loop:
+    - http
+    - https
