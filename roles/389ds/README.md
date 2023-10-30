@@ -2,7 +2,7 @@
 
 ## Default Settings
 
-You can overwrite these values by creating host_vars/localhost.yml and writing entries you want to change.
+You can overwrite these values by creating host_vars/localhost.yml and putting entries you want to change in it.
 
 ```
 $ grep ^DS389 group_vars/all
@@ -19,9 +19,7 @@ DS389_SERVICE_NAME:     "dirsrv@{{ DS389_INSTANCE_NAME }}"
 
 ## After deploying jobs/389ds.yml
 
-'/tmp/ds-template.txt' will be created and used to create the LDAP instance.
-
-To check if desired(specified) instance is up:
+To check if desired(specified) LDAP instance is up:
 
 ```
 $ systemctl status dirsrv@localhost
@@ -43,6 +41,7 @@ $ systemctl status dirsrv@localhost
 
 where the "localhost" part of "dirsrv@localhost" is the instance name specified by DS389_INSTANCE_NAME as described above.
 
+'/tmp/ds-template.txt' file should be created and will be used to create the LDAP instance.
 
 To connect the LDAP server by using software such as [Apache Directory Studio](https://directory.apache.org/studio/), use settings follows:
 

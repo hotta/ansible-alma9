@@ -1,5 +1,5 @@
 [localhost]
-# Note that '/' is replaced to '%%2f'.
+# Note that '/' is replaced with '%%2f'.
 uri = ldapi://%%2fvar%%2frun%%2fslapd-localhost.socket
 basedn = {{ DS389_SUFFIX }}
 binddn = {{ DS389_ROOT_DN }}
