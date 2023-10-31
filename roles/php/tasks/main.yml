@@ -2,7 +2,7 @@
 - name: roles/php/tasks/main.yml
   assert: { that: true, quiet: true }
 
-- name: Check if {{ PHP_COMPOSER_BIN }}
+- name: Check if {{ PHP_COMPOSER_BIN }} exists.
   stat:
     path: "{{ PHP_COMPOSER_BIN }}"
   register: composer

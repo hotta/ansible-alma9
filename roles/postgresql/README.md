@@ -1,11 +1,13 @@
 # Postgresql support
 
-## Create development environment using postgresql
+You  have nothing to do with postgresql. The following description is just a memo.
+
+## Create python development environment using postgresql
 
 ```
 # Install Postgresql server
-$ cd ansible-alma8
-ansible-playbook jobs/postgresql.yml
+$ cd ansible-alma9
+$ ansible-playbook jobs/postgresql.yml
 # Install pyenv and python-3.9.16
 $ cd
 $ git clone https://github.com/pyenv/pyenv.git ~/.pyenv
@@ -44,3 +46,14 @@ python pg_example.py
 ```
 
 No error means the connection is sucessfull.
+
+## postgresql-15 changes breaking compatibility
+
+From postgresql-15, PUBLIC creation permission on the public shcema was removed due to CVE-2018-1058. By default, only the owner of the database can create objects on schema public.
+
+The following commands work around this limitation.
+
+```
+DBNAME=# grant create on schema public to public;
+```
+
