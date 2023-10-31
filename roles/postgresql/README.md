@@ -1,11 +1,13 @@
 # Postgresql support
 
-## Create development environment using postgresql
+You  have nothing to do with postgresql. The following description is just a memo.
+
+## Create python development environment using postgresql
 
 ```
 # Install Postgresql server
-$ cd ansible-alma8
-ansible-playbook jobs/postgresql.yml
+$ cd ansible-alma9
+$ ansible-playbook jobs/postgresql.yml
 # Install pyenv and python-3.9.16
 $ cd
 $ git clone https://github.com/pyenv/pyenv.git ~/.pyenv

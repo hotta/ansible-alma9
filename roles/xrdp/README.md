@@ -1,3 +1,5 @@
+You have nothing to do with xrdp. The following description is just a memo.
+
 # How to replace Japanese IME to anthy
 
 1. 「右上のインジケータ」＞「設定」＞「keyboard」＞「入力ソース」＞「＋」
