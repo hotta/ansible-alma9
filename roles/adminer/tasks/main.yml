@@ -1,0 +1,46 @@
+---
+- name: roles/adminer/tasks/main.yml
+  set_fact: dummy=0
+
+- name: Prepare directory
+  file:
+    path: /opt/adminer/plugins
+    state: directory
+    recurse: yes
+    owner: "{{ ansible_user_id }}"
+  become: yes
+
+- name: Get adminer main file as adminer.php
+  copy:
+    src: adminer-4.8.1.php
+    dest: /opt/adminer/adminer.php
+
+- name: Deploy plugins
+  copy:
+    src: "{{ item }}"
+    dest: /opt/adminer/plugins/
+  with_items:
+    - plugin.php
+    - login-password-less.php
+
+# index.php は login-password-less.php を使うためのラッパースクリプト。
+# index.php の中で password_hash() に渡している生パスワードは実際には
+# 認証には使われないので、空文字列でなければぶっちゃけなんでもよい。
+- name: Deploy index.php
+  template:
+    src: index.php
+    dest: /opt/adminer/
+
+- name: Enable adminer as an httpd service
+  template:
+    src: adminer.conf
+    dest: /etc/httpd/conf.d/
+  become: yes
+  notify: restart httpd
+
+- name: Make phpsession directory writable from apache
+  file:
+    path: /var/lib/php/session
+    state: directory
+    owner: apache
+  become: yes
