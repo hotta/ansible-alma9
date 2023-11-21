@@ -31,6 +31,7 @@
   environment:
     EXTERNAL_URL: https://{{ GITLAB_FQDN }}
   become: true
+  when: not gitlab.stat.exists
 
 - name: Download glab (Gitlab cli)
   get_url:
@@ -50,13 +51,26 @@
     line: ^127.0.0.1  {{ GITLAB_FQDN }}
   become: true
 
+- name: Open firewall
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    immediate: true
+    offline: true
+    permanent: true
+    service: "{{ item }}"
+    state: enabled
+  become: yes
+  loop:
+    - http
+    - https
+  tags: firewall
+
 - name: Fix gitlab version
   lineinfile:
     path: /etc/dnf/dnf.conf
     regexp: excludepkgs=gitlab-ee
     line: excludepkgs=gitlab-ee
   become: true
-
 
 - name: Gitlab was successfully installed.
   assert: { that: true, quiet: true }
