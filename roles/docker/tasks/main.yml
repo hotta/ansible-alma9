@@ -39,3 +39,9 @@
     mode: 0666   
   become: true
   when: DOCKER_ENABLED_FOR_ANYONE
+
+- name: Set vm.overcommit_memory=1
+  ansible.posix.sysctl:
+    name: vm.overcommit_memory
+    value: 1
+  become: true
