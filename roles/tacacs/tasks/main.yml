@@ -1,0 +1,11 @@
+---
+- name: roles/tacacs/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+- name: Install dependencies
+  dnf:
+    name: 
+      - tacacs
+      - tacacs-devel
+      - tacacs-extra
+  become: true
