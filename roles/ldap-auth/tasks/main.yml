@@ -1,18 +1,14 @@
+# code: language=ansible
 ---
 - name: roles/ldap-auth/tasks/main.yml
   assert: { that: true, quiet: true }
 
-- name: Install dependency
-  dnf:
-    name: 
-      - sssd
-      - sssd-tools
-      - oddjob
-  become: true
+- fail:
+    msg: "Caution: AS_LDAP_AUTH_ENABLED is False. Please read roles/authselect/README.md first."
+  when: not AS_LDAP_AUTH_ENABLED
 
-- name: activate oddjobd
-  systemd:
-    name: oddjobd
-    state: started
-    enabled: true
-  become: true
+- import_tasks: sssd.yml
+  when: AS_LDAP_AUTH_ENABLED
+
+- import_tasks: authselect.yml
+  when: AS_LDAP_AUTH_ENABLED

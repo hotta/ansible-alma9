@@ -87,8 +87,8 @@ LARAVEL_DB_ENGINE:      'sqlite'    # 'sqlite' / 'mysql' / 'pgsql'
 TERRERACT_MODEL:    'best'  # select one of (best|fast|legacy)
 # --------------- LDAP auth --------------
 AS_LDAP_AUTH_ENABLED:   False
-AS_PROFILE_NAME:    'ldap-auth'
-AS_LDAP_URI:        'ldap://localhost'
+AS_PROFILE_ID:      'sssd'
+AS_LDAP_URI:        'ldap://ldap.{{ PCA_DOMAIN_SUFFIX }}'
 AS_LDAP_BASEDN:     '{{ DS389_SUFFIX }}'
 AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
 AD_LDAP_BINDPW:     '{{ DS389_ROOT_PASSWORD }}'
