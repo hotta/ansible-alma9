@@ -40,13 +40,19 @@ DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
 DS389_CONFIG_VERSION:   999999999                   # general.defaults
 DS389_SUFFIX:           'dc=example,dc=com' # backend-userroot.suffix
 DS389_SERVICE_NAME:     "dirsrv@{{ DS389_INSTANCE_NAME }}"
-DS389_FQDN:             "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"    # general.full_machine_name
+DS389_FQDN: "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"    # general.full_machine_name
 DS389_INSTANCE_NAME:    'localhost'         # slapd.instance_name
 DS389_ROOT_DN:          'cn=Directory Manager'      # slapd.root_dn = BIND DN
 DS389_ROOT_PASSWORD:    'Directory_Manager_Password'    # slapd.root_password
 DS389_SAMPLE_ENTRIES:   'yes'               # backend-userroot.sample_entries
 DS389_TEMPLATE_PATH:    '/tmp/ds-template.inf'
-DS389_SELFCERT_MONTH:   96      # self_sign_cert_valid_months
+DS389_SELFCERT_MONTH:   96          # self_sign_cert_valid_months
+DS389_USE_COMMON_GROUP: False       # Are all users to be assigned to a specific group?
+DS389_COMMON_GROUP:     'common'    # specific group name.
+DS389_COMMON_GIDNUMBER: 501
+DS389_DNA_MAGIC:        99999       # tell 389ds to generate uidNumber automatically.
+DS389_DNA_NEXT_VALUE:   10001       # uidNumber starts here.
+DS389_DNA_MAX_VALUE:    20000       # uidNumber will be increased until here.
 # ---------------- gitlab ----------------
 GITLAB_VERSION:         '16.3.4'
 GITLAB_GPG_KEY:     'RPM-GPG-KEY-Gitlab-{{ GITLAB_VERSION }}'

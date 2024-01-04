@@ -1,0 +1,35 @@
+---
+- name: roles/389ds/tasks/plugin-dna.yml
+  assert: { that: true, quiet: true }
+
+- name: Enable dna plugin
+  command:
+    cmd: dsconf {{ DS389_INSTANCE_NAME }} plugin dna enable
+  become: true
+
+- name: Restart 389ds    
+  systemd:
+    name: dirsrv@{{ DS389_INSTANCE_NAME }}
+    state: restarted
+  become: true
+
+- name: Configure dna plugin
+  command:
+    argv:
+      - dsconf
+      - "{{ DS389_INSTANCE_NAME }}"
+      - plugin 
+      - dna
+      - config
+      - 'UID and GID numbers'
+      - add
+      - --type 
+      - uidNumber 
+      - gidNumber
+      - --next-value={{ DS389_DNA_NEXT_VALUE }}
+      - --max-value={{ DS389_DNA_MAX_VALUE }}
+      - --magic-regen={{ DS389_DNA_MAGIC }}
+      - --filter=(objectclass=posixAccount)
+      - --scope={{ DS389_SUFFIX }}
+  become: true
+  tags: 'dna'

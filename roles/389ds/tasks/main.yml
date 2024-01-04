@@ -4,3 +4,7 @@
 
 - import_tasks: instance.yml  # Install & instantiate
 - import_tasks: admin.yml     # Ease admin work (password skip etc.)
+- import_tasks: plugin-dna.yml
+- import_tasks: plugin-memberof.yml
+- import_tasks: common-group.yml
+  when: DS389_USE_COMMON_GROUP
