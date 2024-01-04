@@ -8,7 +8,10 @@
   when: not AS_LDAP_AUTH_ENABLED
 
 - import_tasks: sssd.yml
-  when: AS_LDAP_AUTH_ENABLED
-
 - import_tasks: authselect.yml
-  when: AS_LDAP_AUTH_ENABLED
+
+- name: overwrite ldap.conf
+  template:
+    src: ldap.conf
+    dest: /etc/openldap/ldap.conf
+  become: true

@@ -10,24 +10,17 @@
       - sssd-tools
   become: true
 
-- name: Show current profile ID
-  command: authselect current
-  environment:
-    LANG: C
-  register: as_current
+- name: Configure sssd
+  ansible.builtin.template:
+    src: sssd.conf
+    dest: /etc/sssd/sssd.conf
+    owner: root
+    group: root
+    mode: 0600
+  become: true
 
-- debug: var=as_current
-
-- ansible.builtin.set_fact:
-#    as_profile_id: "{{ as_current.stdout | regex_search('Profile ID: (\\S+)', '\\1') }}"
-    as_feature: "{{ as_current.stdout | regex_search('Enabled features: (\\S+)', '\\1') }}"
-
-- debug: var=as_feature
-
-- fail:
-    msg: "authselect has been configured as other than {{ AS_PROFILE_ID }}"
-  when: as_feature != AS_PROFILE_ID
-
-- name: Activate SSSD Profile
-  command: authselect select {{ AS_PROFILE_ID }} with-mkhomedir 
+- name: Restart sssd
+  ansible.builtin.service:
+    name: sssd
+    state: restarted
   become: true

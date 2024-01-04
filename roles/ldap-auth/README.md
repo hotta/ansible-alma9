@@ -1,4 +1,5 @@
-# Using authselect to enable LDAP Auth
+# Activating LDAP Auth
+
 
 Up to RHEL7, authconfig was used as a configuration tool for authentication linkage.  It has been deprecated since RHEL8, and authselect is provided as a successor. Also, when using LDAP for external authentication, nss-pam-ldapd was used, but sssd(sssd-ldap) has become the successor to nss-pam-ldapd. 
 
@@ -11,16 +12,18 @@ You can overwrite these values by creating host_vars/localhost.yml and writing e
 ```
 $ grep ^AS_ group_vars/all
 AS_LDAP_AUTH_ENABLED:   False
-AS_PROFILE_NAME:    'ldap-auth'
-AS_LDAP_URI:        'ldap://localhost'
+AS_PROFILE_ID:      'sssd'
+AS_LDAP_URI:        'ldap://ldap.{{ PCA_DOMAIN_SUFFIX }}'
 AS_LDAP_BASEDN:     '{{ DS389_SUFFIX }}'
 AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
 ```
 
 If you want to use ldap authentication, please follow the instructions:
 
-1. create or modify host_vars/localhost.yml
-2. set AS_LDAP_AUTH_ENABLED to True and set AS_* parameters properly.
-3. Run ansible-playbook jobs/ldap-auth.yml
+1. Verify that the LDAP server to be specified in AS_LDAP_URI(default: ldap://ldap.example.com) is running and accessible from this host.
+2. create or modify host_vars/localhost.yml
+3. set AS_LDAP_AUTH_ENABLED to True and set other AS_* parameters properly.
+4. Run ansible-playbook jobs/ldap-auth.yml
+5. Check /var/log/sssd/* to make sure there are no errors.
 
 Note that winbind(AD auth) has not yet supported in this playbook.
