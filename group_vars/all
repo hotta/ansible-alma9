@@ -46,13 +46,20 @@ DS389_ROOT_DN:          'cn=Directory Manager'      # slapd.root_dn = BIND DN
 DS389_ROOT_PASSWORD:    'Directory_Manager_Password'    # slapd.root_password
 DS389_SAMPLE_ENTRIES:   'yes'               # backend-userroot.sample_entries
 DS389_TEMPLATE_PATH:    '/tmp/ds-template.inf'
-DS389_SELFCERT_MONTH:   96          # self_sign_cert_valid_months
-DS389_USE_COMMON_GROUP: False       # Are all users to be assigned to a specific group?
+DS389_SELFCERT_MONTH:   120         # self_sign_cert_valid_months
+DS389_USE_COMMON_GROUP: False       # all users belong to a specific group?
 DS389_COMMON_GROUP:     'common'    # specific group name.
 DS389_COMMON_GIDNUMBER: 501
 DS389_DNA_MAGIC:        99999       # tell 389ds to generate uidNumber automatically.
 DS389_DNA_NEXT_VALUE:   10001       # uidNumber starts here.
 DS389_DNA_MAX_VALUE:    20000       # uidNumber will be increased until here.
+DS389_REPL_BIND_DN:     'cn=replication manager,cn=config'
+DS389_REPL_BIND_PW:     'Replication_Manager_Password'
+DS389_REPL_IP1:         '192.168.56.6'  # IP of replica1
+DS389_REPL_IP2:         '192.168.56.7'  # IP of replica2
+DS389_PORT:             636
+DS389_AGMT_1TO2:        'RW1_to_RW2'    # agreement name
+DS389_AGMT_2TO1:        'RW2_to_RW1'    # agreement name
 # ---------------- gitlab ----------------
 GITLAB_VERSION:         '16.3.4'
 GITLAB_GPG_KEY:     'RPM-GPG-KEY-Gitlab-{{ GITLAB_VERSION }}'

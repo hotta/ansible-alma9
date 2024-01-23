@@ -20,7 +20,7 @@ AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
 
 If you want to use ldap authentication, please follow the instructions:
 
-1. Verify that the LDAP server to be specified in AS_LDAP_URI(default: ldap://ldap.example.com) is running and accessible from this host.
+1. Verify that the LDAP server to be specified in AS_LDAP_URI(default: ldap://ldap.example.com) is running and accessible from the host in question.
 2. create or modify host_vars/localhost.yml
 3. set AS_LDAP_AUTH_ENABLED to True and set other AS_* parameters properly.
 4. Run ansible-playbook jobs/ldap-auth.yml
