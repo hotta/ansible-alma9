@@ -1,4 +1,4 @@
 ---
-- hosts: 389ds
+- hosts: ds389
   roles:
     - { role: 389ds,          tags: 389ds         }
