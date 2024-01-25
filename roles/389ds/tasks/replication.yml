@@ -6,19 +6,6 @@
   assert: { that: true, quiet: true }
   failed_when: not replicaId
 
-
-- name: Force disable replication for {{ DS389_SUFFIX }}
-  command:
-    argv:
-      - dsconf 
-      - "{{ DS389_INSTANCE_NAME }}"
-      - replication 
-      - disable
-      - --suffix
-      - "{{ DS389_SUFFIX }}"
-  become: true
-  ignore_errors: true
-
 - name: == Both == Create manager account + enable replication
   command:
     argv: 

@@ -2,3 +2,4 @@
 - hosts: ds389
   roles:
     - { role: 389ds,          tags: 389ds         }
+    - { role: ldap-auth,          tags: 389ds         }

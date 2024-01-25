@@ -30,6 +30,20 @@
 
 - debug: var=check_instance.failed
 
+- name: Force disable replication for {{ DS389_SUFFIX }}
+  command:
+    argv:
+      - dsconf 
+      - "{{ DS389_INSTANCE_NAME }}"
+      - replication 
+      - disable
+      - --suffix
+      - "{{ DS389_SUFFIX }}"
+  become: true
+  when: 
+    - not check_instance.failed
+  ignore_errors: true
+
 - name: Stop 389ds instance if needed
   command: dsctl {{ DS389_INSTANCE_NAME }} stop
   become: yes
