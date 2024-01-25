@@ -39,7 +39,6 @@ Second, check variables involved with 389DS.
 
 ```
 $ grep ^DS389 group_vars/all
-DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
 (snip)
 ```
 
