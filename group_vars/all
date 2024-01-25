@@ -55,11 +55,11 @@ DS389_DNA_NEXT_VALUE:   10001       # uidNumber starts here.
 DS389_DNA_MAX_VALUE:    20000       # uidNumber will be increased until here.
 DS389_REPL_BIND_DN:     'cn=replication manager,cn=config'
 DS389_REPL_BIND_PW:     'Replication_Manager_Password'
-DS389_REPL_IP1:         '192.168.56.6'  # IP of replica1
-DS389_REPL_IP2:         '192.168.56.7'  # IP of replica2
-DS389_PORT:             636
-DS389_AGMT_1TO2:        'RW1_to_RW2'    # agreement name
-DS389_AGMT_2TO1:        'RW2_to_RW1'    # agreement name
+DS389_REPL_HOST1:       'ldap1.example.com'  # replica1
+DS389_REPL_HOST2:       'ldap2.example.com'  # replica2
+DS389_PORT:             389
+DS389_AGMT_1TO2:        'agmt-1to2'     # agreement name
+DS389_AGMT_2TO1:        'agmt-2to1'     # agreement name
 # ---------------- gitlab ----------------
 GITLAB_VERSION:         '16.3.4'
 GITLAB_GPG_KEY:     'RPM-GPG-KEY-Gitlab-{{ GITLAB_VERSION }}'

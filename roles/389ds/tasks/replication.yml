@@ -6,64 +6,20 @@
   assert: { that: true, quiet: true }
   failed_when: not replicaId
 
-- name: determine ip address for replica1
-  set_fact:
-    self_ip: "{{ DS389_REPL_IP1 }}"
-    peer_ip: "{{ DS389_REPL_IP2 }}"
-  when: replicaId == 1
 
-- name: determine ip address for replica2
-  set_fact:
-    self_ip: "{{ DS389_REPL_IP2 }}"
-    peer_ip: "{{ DS389_REPL_IP1 }}"
-  when: replicaId == 2
-
-- debug: var=self_ip verbosity=0
-- debug: var=peer_ip verbosity=0
-
-- name: Check if the replication manager account exists
-  community.general.ldap_search:
-    attrs: dn
-    bind_dn: "{{ DS389_ROOT_DN }}"
-    bind_pw: "{{ DS389_ROOT_PASSWORD }}"
-    dn: "{{ DS389_REPL_BIND_DN }}"
-    server_uri: "ldap://{{ self_ip }}"
-  register: repl_manager
-  ignore_errors: true
-
-- debug: var=repl_manager verbosity=0
-
-- name: Create replication manager account - no need
+- name: Force disable replication for {{ DS389_SUFFIX }}
   command:
     argv:
       - dsconf 
       - "{{ DS389_INSTANCE_NAME }}"
       - replication 
-      - create-manager
-      - --name
-      - "{{ DS389_REPL_BIND_DN }}"
-      - --passwd
-      - "{{ DS389_REPL_BIND_PW }}"
+      - disable
       - --suffix
       - "{{ DS389_SUFFIX }}"
   become: true
-  when: 
-    - repl_manager.failed
-    - False
+  ignore_errors: true
 
-- name: Check if the replication is enabled
-  command:
-    argv:
-      - dsconf 
-      - "{{ DS389_INSTANCE_NAME }}"
-      - replication 
-      - list
-  register: repl_enabled
-  become: true
-
-- debug: var=repl_enabled.stdout verbosity=0
-
-- name: Enable replication
+- name: == Both == Create manager account + enable replication
   command:
     argv: 
       - dsconf 
@@ -78,10 +34,11 @@
       - "{{ replicaId }}"
       - --bind-dn
       - "{{ DS389_REPL_BIND_DN }}"
+      - --bind-passwd
+      - "{{ DS389_REPL_BIND_PW }}"
   become: true
-  when: repl_enabled.stdout.find('There are no replicated suffixes') != -1
 
-- name: Create agreement from replica1 to replica2
+- name: == supplier1 == Create agreement and init for 1to2
   command:
     argv:
       - dsconf
@@ -90,44 +47,64 @@
       - create
       - --suffix
       - "{{ DS389_SUFFIX }}"
-      - --host={{ DS389_REPL_IP2 }}
+      - --host={{ DS389_REPL_HOST2 }}
       - --port={{ DS389_PORT }}
       - --conn-protocol
-      - LDAPS
+      - LDAP
       - --bind-dn
       - "{{ DS389_REPL_BIND_DN }}"
       - --bind-passwd
       - "{{ DS389_REPL_BIND_PW }}"
       - --bind-method
       - SIMPLE
+      - --init
       - "{{ DS389_AGMT_1TO2 }}"
   become: true
-  when: replicaId == 1
+  when: replicaId == 2
 
-- name: Start replication from replica1 to replica2
+- name: == supplier2 = Create agreement for 2to1 (no init)
   command:
     argv:
       - dsconf
       - "{{ DS389_INSTANCE_NAME }}"
       - repl-agmt
-      - init
+      - create
       - --suffix
       - "{{ DS389_SUFFIX }}"
-      - "{{ DS389_AGMT_1TO2 }}"
+      - --host={{ DS389_REPL_HOST1 }}
+      - --port={{ DS389_PORT }}
+      - --conn-protocol
+      - LDAP
+      - --bind-dn
+      - "{{ DS389_REPL_BIND_DN }}"
+      - --bind-passwd
+      - "{{ DS389_REPL_BIND_PW }}"
+      - --bind-method
+      - SIMPLE
+      - "{{ DS389_AGMT_2TO1 }}"
   become: true
   when: replicaId == 1
 
-- name: Wait for initial replication from replica1 to replica2
+- name: == supplier1 == Create agreement and init for 2to1
   command:
     argv:
       - dsconf
       - "{{ DS389_INSTANCE_NAME }}"
       - repl-agmt
-      - init-status
+      - create
       - --suffix
-      - "{{ DS389_AGMT_1TO2 }}"
+      - "{{ DS389_SUFFIX }}"
+      - --host={{ DS389_REPL_HOST2 }}
+      - --port={{ DS389_PORT }}
+      - --conn-protocol
+      - LDAP
+      - --bind-dn
+      - "{{ DS389_REPL_BIND_DN }}"
+      - --bind-passwd
+      - "{{ DS389_REPL_BIND_PW }}"
+      - --bind-method
+      - SIMPLE
+      - --init
+      - "{{ DS389_AGMT_2TO1 }}"
   become: true
-  register: init_1to2
-  when: replicaId == 1
-
-- debug: var=init_1to2
+  when: replicaId == 2

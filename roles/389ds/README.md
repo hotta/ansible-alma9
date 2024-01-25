@@ -1,22 +1,38 @@
 # 389-ds quick guide
 
-## Create inventory
+## the environment around OS
 
 This playbook supports multi-provider replication by default.
-It requiers at least two hosts to be configured (Though, greater than two hosts is not yet supported).
+We assume there are two hosts to set up. 
+(Though, greater than two hosts is not yet supported).
+The both hosts have the same settings as follows:
+
+```
+$ tail -2 /etc/hosts
+192.168.56.6    ldap1   ldap1.example.com
+192.168.56.7    ldap2   ldap2.example.com
+$ grep ^[BU] /etc/openldap/ldap.conf
+BASE    dc=example,dc=com
+URI     ldap://localhost
+```
+
+The IP addresses should be read according to your environment.
+
+## Create inventory
+
 First, create inventory file to specify which hosts are to be configured.
 
 ```
-$ cat hosts.389ds.tmpl
-[389ds]
-replica1 ansible_host=192.168.56.6 replicaId=1
-replica2 ansible_host=192.168.56.7 replicaId=2
-$ cp hosts.389ds.tmpl hosts.389ds
-$ vi hosts.389ds                # Change IP adresses if needed
+$ cat hosts.ds389.tmpl
+[ds389]
+supplier1 ansible_host=ldap1.example.com replicaId=2
+supplier2 ansible_host=ldap2.example.com replicaId=1
+$ cp hosts.ds389.tmpl hosts.ds389
+$ vi hosts.ds389
 ```
 
 The two ansible_hosts must be able to enter each other (or from ansible controller host) via SSH.
- 
+
 ## Change default Settings if needed
 
 Second, check variables involved with 389DS.
@@ -27,12 +43,12 @@ DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
 (snip)
 ```
 
-You can overwrite these values by creating group_vars/389ds.yml and putting entries you want to change in it. You must rewrite DS389_REPL_IP1 / DS389_REPL_IP2 to at least match the IP addresses listed in hosts.389ds.
+You can overwrite these values by creating group_vars/ds389.yml and putting entries you want to change in it. You may have to rewrite DS389_REPL_HOST{1,2}to at least match the hosts listed in hosts.ds389.
 
 ## Run the playbook
 
 ```
-$ ansible-playbook jobs/389ds.yml -i hosts.389ds
+$ ansible-playbook jobs/389ds.yml -i hosts.ds389
 ```
 
 ## After deploying jobs/389ds.yml

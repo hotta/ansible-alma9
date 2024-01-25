@@ -8,5 +8,5 @@
 - import_tasks: plugin-memberof.yml
 - import_tasks: common-group.yml
   when: DS389_USE_COMMON_GROUP
-# - import_tasks: replication.yml
-#   tags: repl
+- import_tasks: replication.yml
+  tags: repl
