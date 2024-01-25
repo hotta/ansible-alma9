@@ -1,0 +1,21 @@
+---
+- name: roles/389ds/tasks/plugin-memberof.yml
+  assert: { that: true, quiet: true }
+
+# https://www.belbel.or.jp/opensuse-manuals_ja/cha-security-ldap.html#sec-security-ldap-modules
+
+- name: Enable memberof plugin
+  command:
+    cmd: dsconf {{ DS389_INSTANCE_NAME }} plugin memberof enable
+  become: true
+
+- name: Restart 389ds    
+  systemd:
+    name: dirsrv@{{ DS389_INSTANCE_NAME }}
+    state: restarted
+  become: true
+
+- name: Set scope of memberof plugin
+  command:
+    cmd: dsconf {{ DS389_INSTANCE_NAME }} plugin memberof set --scope {{ DS389_SUFFIX }}
+  become: true

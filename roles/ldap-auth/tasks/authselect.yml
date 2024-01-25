@@ -1,0 +1,32 @@
+# code: language=ansible
+---
+#
+# Sample task to enable LDAP Auth
+#
+- name: roles/ldap-auth/tasks/authselect.yml
+  assert: { that: true, quiet: true }
+
+- name: Show current profile ID
+  command: authselect current
+  environment:
+    LANG: C
+  register: as_current
+
+- debug: var=as_current
+
+- ansible.builtin.set_fact:
+#    as_profile_id: "{{ as_current.stdout | regex_search('Profile ID: (\\S+)', '\\1') }}"
+    profile_id: "{{ as_current.stdout | regex_search('Profile ID: (\\S+)', '\\1') | join('') }}"
+    as_feature: "{{ as_current.stdout | regex_search('Enabled features: (\\S+)', '\\1') }}"
+
+- debug: var=AS_PROFILE_ID
+- debug: var=profile_id
+- debug: var=as_feature
+
+- fail:
+    msg: "authselect has been configured as other than {{ AS_PROFILE_ID }}"
+  when: profile_id != AS_PROFILE_ID
+
+- name: Activate SSSD Profile
+  command: authselect select {{ AS_PROFILE_ID }} with-mkhomedir 
+  become: true

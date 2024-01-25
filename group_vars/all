@@ -40,13 +40,26 @@ DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
 DS389_CONFIG_VERSION:   999999999                   # general.defaults
 DS389_SUFFIX:           'dc=example,dc=com' # backend-userroot.suffix
 DS389_SERVICE_NAME:     "dirsrv@{{ DS389_INSTANCE_NAME }}"
-DS389_FQDN:             "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"    # general.full_machine_name
+DS389_FQDN: "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"    # general.full_machine_name
 DS389_INSTANCE_NAME:    'localhost'         # slapd.instance_name
 DS389_ROOT_DN:          'cn=Directory Manager'      # slapd.root_dn = BIND DN
 DS389_ROOT_PASSWORD:    'Directory_Manager_Password'    # slapd.root_password
 DS389_SAMPLE_ENTRIES:   'yes'               # backend-userroot.sample_entries
 DS389_TEMPLATE_PATH:    '/tmp/ds-template.inf'
-DS389_SELFCERT_MONTH:   96      # self_sign_cert_valid_months
+DS389_SELFCERT_MONTH:   120         # self_sign_cert_valid_months
+DS389_USE_COMMON_GROUP: False       # all users belong to a specific group?
+DS389_COMMON_GROUP:     'common'    # specific group name.
+DS389_COMMON_GIDNUMBER: 501
+DS389_DNA_MAGIC:        99999       # tell 389ds to generate uidNumber automatically.
+DS389_DNA_NEXT_VALUE:   10001       # uidNumber starts here.
+DS389_DNA_MAX_VALUE:    20000       # uidNumber will be increased until here.
+DS389_REPL_BIND_DN:     'cn=replication manager,cn=config'
+DS389_REPL_BIND_PW:     'Replication_Manager_Password'
+DS389_REPL_HOST1:       'ldap1.example.com'  # replica1
+DS389_REPL_HOST2:       'ldap2.example.com'  # replica2
+DS389_PORT:             389
+DS389_AGMT_1TO2:        'agmt-1to2'     # agreement name
+DS389_AGMT_2TO1:        'agmt-2to1'     # agreement name
 # ---------------- gitlab ----------------
 GITLAB_VERSION:         '16.3.4'
 GITLAB_GPG_KEY:     'RPM-GPG-KEY-Gitlab-{{ GITLAB_VERSION }}'
@@ -87,8 +100,8 @@ LARAVEL_DB_ENGINE:      'sqlite'    # 'sqlite' / 'mysql' / 'pgsql'
 TERRERACT_MODEL:    'best'  # select one of (best|fast|legacy)
 # --------------- LDAP auth --------------
 AS_LDAP_AUTH_ENABLED:   False
-AS_PROFILE_NAME:    'ldap-auth'
-AS_LDAP_URI:        'ldap://localhost'
+AS_PROFILE_ID:      'sssd'
+AS_LDAP_URI:        'ldap://ldap.{{ PCA_DOMAIN_SUFFIX }}'
 AS_LDAP_BASEDN:     '{{ DS389_SUFFIX }}'
 AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
 AD_LDAP_BINDPW:     '{{ DS389_ROOT_PASSWORD }}'

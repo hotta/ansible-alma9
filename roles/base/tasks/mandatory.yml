@@ -36,6 +36,7 @@
       - perl
       - postfix
       - msmtp
+      - ugrep
   become: yes
 
 - name: Install additional packages for AlmaLinux

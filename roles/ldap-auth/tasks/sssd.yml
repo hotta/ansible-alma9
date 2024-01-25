@@ -1,0 +1,26 @@
+# code: language=ansible
+---
+- name: roles/ldap-auth/tasks/sssd.yml
+  assert: { that: true, quiet: true }
+
+- name: Install sssd
+  dnf:
+    name: 
+      - sssd
+      - sssd-tools
+  become: true
+
+- name: Configure sssd
+  ansible.builtin.template:
+    src: sssd.conf
+    dest: /etc/sssd/sssd.conf
+    owner: root
+    group: root
+    mode: 0600
+  become: true
+
+- name: Restart sssd
+  ansible.builtin.service:
+    name: sssd
+    state: restarted
+  become: true

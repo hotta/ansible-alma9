@@ -1,0 +1,110 @@
+---
+# https://www.belbel.or.jp/opensuse-manuals_ja/cha-security-ldap.html#sec-security-ldap-replication-two-nodes
+# https://access.redhat.com/documentation/ja-jp/red_hat_directory_server/12/html/configuring_and_managing_replication/assembly_configuring-multi-supplier-replication-using-the-command-line_configuring-and-managing-replication
+
+- name: roles/389ds/tasks/replication.yml
+  assert: { that: true, quiet: true }
+  failed_when: not replicaId
+
+
+- name: Force disable replication for {{ DS389_SUFFIX }}
+  command:
+    argv:
+      - dsconf 
+      - "{{ DS389_INSTANCE_NAME }}"
+      - replication 
+      - disable
+      - --suffix
+      - "{{ DS389_SUFFIX }}"
+  become: true
+  ignore_errors: true
+
+- name: == Both == Create manager account + enable replication
+  command:
+    argv: 
+      - dsconf 
+      - "{{ DS389_INSTANCE_NAME }}"
+      - replication 
+      - enable 
+      - --suffix
+      - "{{ DS389_SUFFIX }}"
+      - --role
+      - supplier
+      - --replica-id
+      - "{{ replicaId }}"
+      - --bind-dn
+      - "{{ DS389_REPL_BIND_DN }}"
+      - --bind-passwd
+      - "{{ DS389_REPL_BIND_PW }}"
+  become: true
+
+- name: == supplier1 == Create agreement and init for 1to2
+  command:
+    argv:
+      - dsconf
+      - "{{ DS389_INSTANCE_NAME }}"
+      - repl-agmt
+      - create
+      - --suffix
+      - "{{ DS389_SUFFIX }}"
+      - --host={{ DS389_REPL_HOST2 }}
+      - --port={{ DS389_PORT }}
+      - --conn-protocol
+      - LDAP
+      - --bind-dn
+      - "{{ DS389_REPL_BIND_DN }}"
+      - --bind-passwd
+      - "{{ DS389_REPL_BIND_PW }}"
+      - --bind-method
+      - SIMPLE
+      - --init
+      - "{{ DS389_AGMT_1TO2 }}"
+  become: true
+  when: replicaId == 2
+
+- name: == supplier2 = Create agreement for 2to1 (no init)
+  command:
+    argv:
+      - dsconf
+      - "{{ DS389_INSTANCE_NAME }}"
+      - repl-agmt
+      - create
+      - --suffix
+      - "{{ DS389_SUFFIX }}"
+      - --host={{ DS389_REPL_HOST1 }}
+      - --port={{ DS389_PORT }}
+      - --conn-protocol
+      - LDAP
+      - --bind-dn
+      - "{{ DS389_REPL_BIND_DN }}"
+      - --bind-passwd
+      - "{{ DS389_REPL_BIND_PW }}"
+      - --bind-method
+      - SIMPLE
+      - "{{ DS389_AGMT_2TO1 }}"
+  become: true
+  when: replicaId == 1
+
+- name: == supplier1 == Create agreement and init for 2to1
+  command:
+    argv:
+      - dsconf
+      - "{{ DS389_INSTANCE_NAME }}"
+      - repl-agmt
+      - create
+      - --suffix
+      - "{{ DS389_SUFFIX }}"
+      - --host={{ DS389_REPL_HOST2 }}
+      - --port={{ DS389_PORT }}
+      - --conn-protocol
+      - LDAP
+      - --bind-dn
+      - "{{ DS389_REPL_BIND_DN }}"
+      - --bind-passwd
+      - "{{ DS389_REPL_BIND_PW }}"
+      - --bind-method
+      - SIMPLE
+      - --init
+      - "{{ DS389_AGMT_2TO1 }}"
+  become: true
+  when: replicaId == 2

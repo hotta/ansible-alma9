@@ -1,0 +1,17 @@
+# code: language=ansible
+---
+- name: roles/ldap-auth/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+- fail:
+    msg: "Caution: AS_LDAP_AUTH_ENABLED is False. Please read roles/authselect/README.md first."
+  when: not AS_LDAP_AUTH_ENABLED
+
+- import_tasks: sssd.yml
+- import_tasks: authselect.yml
+
+- name: overwrite ldap.conf
+  template:
+    src: ldap.conf
+    dest: /etc/openldap/ldap.conf
+  become: true

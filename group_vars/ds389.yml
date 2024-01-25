@@ -1,0 +1,4 @@
+# ds389.yml
+---
+DS389_USE_COMMON_GROUP: True
+AS_LDAP_AUTH_ENABLED: True

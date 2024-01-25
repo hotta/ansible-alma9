@@ -1,20 +1,53 @@
 # 389-ds quick guide
 
-## Default Settings
+## the environment around OS
 
-You can overwrite these values by creating host_vars/localhost.yml and putting entries you want to change in it.
+This playbook supports multi-provider replication by default.
+We assume there are two hosts to set up. 
+(Though, greater than two hosts is not yet supported).
+The both hosts have the same settings as follows:
+
+```
+$ tail -2 /etc/hosts
+192.168.56.6    ldap1   ldap1.example.com
+192.168.56.7    ldap2   ldap2.example.com
+$ grep ^[BU] /etc/openldap/ldap.conf
+BASE    dc=example,dc=com
+URI     ldap://localhost
+```
+
+The IP addresses should be read according to your environment.
+
+## Create inventory
+
+First, create inventory file to specify which hosts are to be configured.
+
+```
+$ cat hosts.ds389.tmpl
+[ds389]
+supplier1 ansible_host=ldap1.example.com replicaId=2
+supplier2 ansible_host=ldap2.example.com replicaId=1
+$ cp hosts.ds389.tmpl hosts.ds389
+$ vi hosts.ds389
+```
+
+The two ansible_hosts must be able to enter each other (or from ansible controller host) via SSH.
+
+## Change default Settings if needed
+
+Second, check variables involved with 389DS.
 
 ```
 $ grep ^DS389 group_vars/all
-DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
-DS389_CONFIG_VERSION:   999999999                   # general.defaults
-DS389_FQDN:     "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"    # general.full_machine_name
-DS389_INSTANCE_NAME:    'localhost'         # slapd.instance_name
-DS389_ROOT_DN:  'cn=Directory Manager'      # slapd.root_dn = BIND DN
-DS389_ROOT_PASSWORD:    'Directory_Manager_Password'    # slapd.root_password
-DS389_SAMPLE_ENTRIES:   'yes'               # backend-userroot.sample_entries
-DS389_SUFFIX:   "dc=example,dc=com"         # backend-userroot.suffix
-DS389_SERVICE_NAME:     "dirsrv@{{ DS389_INSTANCE_NAME }}"
+(snip)
+```
+
+You can overwrite these values by creating group_vars/ds389.yml and putting entries you want to change in it. You may have to rewrite DS389_REPL_HOST{1,2}to at least match the hosts listed in hosts.ds389.
+
+## Run the playbook
+
+```
+$ ansible-playbook jobs/389ds.yml -i hosts.ds389
 ```
 
 ## After deploying jobs/389ds.yml
@@ -23,31 +56,17 @@ To check if desired(specified) LDAP instance is up:
 
 ```
 $ systemctl status dirsrv@localhost
-● dirsrv@localhost.service - 389 Directory Server localhost.
-     Loaded: loaded (/usr/lib/systemd/system/dirsrv@.service; enabled; preset: disabled)
-    Drop-In: /usr/lib/systemd/system/dirsrv@.service.d
-             └─custom.conf
-     Active: active (running) since Thu 2023-09-21 14:21:45 JST; 2s ago
-    Process: 9498 ExecStartPre=/usr/libexec/dirsrv/ds_systemd_ask_password_acl /etc/dirsrv/slapd-localhost/dse.ldif (code=exited, status=0/SUCCESS)
-    Process: 9503 ExecStartPre=/usr/libexec/dirsrv/ds_selinux_restorecon.sh /etc/dirsrv/slapd-localhost/dse.ldif (code=exited, status=0/SUCCESS)
-   Main PID: 9509 (ns-slapd)
-     Status: "slapd started: Ready to process requests"
-      Tasks: 29 (limit: 11051)
-     Memory: 57.5M
-        CPU: 1.796s
-     CGroup: /system.slice/system-dirsrv.slice/dirsrv@localhost.service
-             └─9509 /usr/sbin/ns-slapd -D /etc/dirsrv/slapd-localhost -i /run/dirsrv/slapd-localhost.pid
 ```
 
-where the "localhost" part of "dirsrv@localhost" is the instance name specified by DS389_INSTANCE_NAME as described above.
+where the "localhost" part of "dirsrv@localhost" is the instance name specified by DS389_INSTANCE_NAME which is defined in group_vars/all.
 
-'/tmp/ds-template.txt' file should be created and will be used to create the LDAP instance.
+'/tmp/ds-template.txt' file should be created and be used to create the LDAP instance.
 
-To connect the LDAP server by using software such as [Apache Directory Studio](https://directory.apache.org/studio/), use settings follows:
+To connect the LDAP server by using software such as [Apache Directory Studio](https://directory.apache.org/studio/), use settings follows (by default):
 
 | item                      | value                 |
 |---------------------------|-------------------------------|
-| Port No                   | 389                   |
+| Port No                   | 389 or 636            |
 | Bind DN                   | cn=Directory Manager  |
 | Bind password             | Directory_Manager_Password    |
 | Base DN for configuration | cn=config             |

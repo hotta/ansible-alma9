@@ -5,3 +5,5 @@ basedn = {{ DS389_SUFFIX }}
 binddn = {{ DS389_ROOT_DN }}
 saslmech = EXTERNAL
 pwdfile = /root/.ldappass
+group = {{ DS389_COMMON_GROUP }}
+gidnumber = {{ DS389_COMMON_GIDNUMBER }}
