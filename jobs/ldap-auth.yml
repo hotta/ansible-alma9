@@ -1,4 +1,4 @@
 ---
-- hosts: localhost
+- hosts: ds389
   roles:
     - { role: ldap-auth,           tags: ldap-auth          }
