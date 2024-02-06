@@ -30,3 +30,7 @@ If you want to use ldap authentication, please follow the instructions:
 Note that winbind(AD auth) has not yet supported in this playbook.
 
 If you are configuring replication on two 389ds and want to set up LDAP authentication on them, use jobs/389ds.yml instead. In this case, LDAP authentication is enabled by default.
+
+## Known issues
+
+- Home directory auto generation (pam_oddjob_mkhomedir.so) not working as expected. Please make home directory for new users manually.
