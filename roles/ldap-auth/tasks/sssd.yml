@@ -24,3 +24,10 @@
     name: sssd
     state: restarted
   become: true
+
+- name: Start oddjobd for mkhomedir
+  systemd:
+    name: oddjobd
+    state: started
+    enabled: true
+  become: true

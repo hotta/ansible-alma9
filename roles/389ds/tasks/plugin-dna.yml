@@ -13,7 +13,7 @@
     state: restarted
   become: true
 
-- name: Configure dna plugin
+- name: Configure dna plugin for replicaId 1
   command:
     argv:
       - dsconf
@@ -21,15 +21,36 @@
       - plugin 
       - dna
       - config
-      - 'UID and GID numbers'
+      - "{{ DS389_CONFIG_NAME }}"
       - add
       - --type 
       - uidNumber 
       - gidNumber
-      - --next-value={{ DS389_DNA_NEXT_VALUE }}
-      - --max-value={{ DS389_DNA_MAX_VALUE }}
+      - --next-value={{ DS389_DNA_1_NEXT_VALUE }}
+      - --max-value={{ DS389_DNA_1_MAX_VALUE }}
       - --magic-regen={{ DS389_DNA_MAGIC }}
       - --filter=(objectclass=posixAccount)
       - --scope={{ DS389_SUFFIX }}
   become: true
-  tags: 'dna'
+  when: replicaId == 1
+
+- name: Configure dna plugin for replicaId 2
+  command:
+    argv:
+      - dsconf
+      - "{{ DS389_INSTANCE_NAME }}"
+      - plugin 
+      - dna
+      - config
+      - "{{ DS389_CONFIG_NAME }}"
+      - add
+      - --type 
+      - uidNumber 
+      - gidNumber
+      - --next-value={{ DS389_DNA_2_NEXT_VALUE }}
+      - --max-value={{ DS389_DNA_2_MAX_VALUE }}
+      - --magic-regen={{ DS389_DNA_MAGIC }}
+      - --filter=(objectclass=posixAccount)
+      - --scope={{ DS389_SUFFIX }}
+  become: true
+  when: replicaId == 2
