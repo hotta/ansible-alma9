@@ -50,6 +50,7 @@ DS389_SELFCERT_MONTH:   120         # self_sign_cert_valid_months
 DS389_USE_COMMON_GROUP: False       # all users belong to a specific group?
 DS389_COMMON_GROUP:     'common'    # specific group name.
 DS389_COMMON_GIDNUMBER: 501
+DS389_MAILDOMAIN:       "{{ PCA_DOMAIN_SUFFIX }}"
 DS389_CONFIG_NAME:      'UID and GID numbers'
 DS389_DNA_MAGIC:        0           # tell 389ds to generate uidNumber automatically.
 DS389_DNA_1_NEXT_VALUE:   10001     # uidNumber starts here.

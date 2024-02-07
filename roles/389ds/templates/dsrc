@@ -7,3 +7,4 @@ saslmech = EXTERNAL
 pwdfile = /root/.ldappass
 group = {{ DS389_COMMON_GROUP }}
 gidnumber = {{ DS389_COMMON_GIDNUMBER }}
+maildomain = {{ DS389_MAILDOMAIN }}

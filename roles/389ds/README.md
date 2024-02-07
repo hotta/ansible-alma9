@@ -71,3 +71,8 @@ To connect the LDAP server by using software such as [Apache Directory Studio](h
 | Bind password             | Directory_Manager_Password    |
 | Base DN for configuration | cn=config             |
 | Base DN for user data     | dc=example,dc=com     |
+
+## TODO
+
+- It takes a while to stop existing 389ds instance(5-10 min).
+
