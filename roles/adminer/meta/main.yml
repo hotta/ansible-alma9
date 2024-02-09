@@ -1,3 +1,4 @@
 dependencies:
   - { role: php }
+  - { role: httpd }
   - { role: service }

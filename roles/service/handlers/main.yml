@@ -1,5 +1,7 @@
-# roles/service-control/handlers/main.yml
 ---
+- name: roles/service/handlers/main.yml
+  assert: { that: true, quiet: true }
+
 - name: enable firewalld
   systemd:
     name: firewalld
