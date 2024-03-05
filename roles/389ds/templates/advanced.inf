@@ -190,7 +190,7 @@ root_password = {{ DS389_ROOT_PASSWORD }}
 # self_sign_cert_valid_months (int)
 # Description: Set the number of months the issued self-signed certificate will be valid.
 # Default value: 24 
-;self_sign_cert_valid_months = 24
+self_sign_cert_valid_months = {{ DS389_SELFCERT_MONTH }}
 
 # sysconf_dir (str)
 # Description: Sets the location of the system''s configuration directory. Only set this parameter in a development environment.
