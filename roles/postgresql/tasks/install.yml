@@ -3,7 +3,7 @@
   assert: { that: true, quiet: true }
 
 - name: Enable PostgreSQL dnf module 
-  command: dnf module -y enable postgresql
+  command: dnf module -y enable postgresql:{{ PG_VERSION }}
   become: true
 
 - name: Install PostgreSQL

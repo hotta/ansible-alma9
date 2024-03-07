@@ -112,5 +112,3 @@ AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
 AD_LDAP_BINDPW:     '{{ DS389_ROOT_PASSWORD }}'
 # --------------- PostgreSQL --------------
 PG_VERSION:         15
-PG_REPO_KEY_URL_BASE:    'https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG'
-PG_REPO_URL:    'https://download.postgresql.org/pub/repos/yum/reporpms/EL-{{ ALMA_MAJOR }}-x86_64/pgdg-redhat-repo-latest.noarch.rpm'
