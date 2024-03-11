@@ -21,11 +21,12 @@ AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
 
 If you want to use ldap authentication, please follow the instructions:
 
-1. Verify that the LDAP server to be specified in AS_LDAP_URI(default: ldap://ldap1.example.com and ldap://ldap2.example.com) is running and accessible from the host in question.
-2. create or modify host_vars/localhost.yml
-3. set AS_LDAP_AUTH_ENABLED to True and set other AS_* parameters properly.
-4. Run ansible-playbook jobs/ldap-auth.yml
-5. Check /var/log/sssd/* to make sure there are no errors.
+1. See roles/389ds/README to create hosts.ds389.
+2. Run playbook.
+
+```
+$ ansible-playbook jobs/ldap-auth.yml -i hosts.ds389
+```
 
 Note that winbind(AD auth) has not yet supported in this playbook.
 

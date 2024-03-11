@@ -59,8 +59,10 @@ DS389_DNA_2_NEXT_VALUE:   50001     # uidNumber starts here.
 DS389_DNA_2_MAX_VALUE:   100000     # uidNumber will be increased until here.
 DS389_REPL_BIND_DN:     'cn=replication manager,cn=config'
 DS389_REPL_BIND_PW:     'Replication_Manager_Password'
-DS389_REPL_HOST1:       'ldap1.example.com'  # replica1
-DS389_REPL_HOST2:       'ldap2.example.com'  # replica2
+DS389_HOST1:            'ldap1'			# replica1
+DS389_HOST2:            'ldap2'			# replica2
+DS389_REPL_HOST1:       '{{ DS389_HOST1 }}.{{ PCA_DOMAIN_SUFFIX }}'
+DS389_REPL_HOST2:       '{{ DS389_HOST2 }}.{{ PCA_DOMAIN_SUFFIX }}'
 DS389_PORT:             389
 DS389_AGMT_1TO2:        'agmt-1to2'     # agreement name
 DS389_AGMT_2TO1:        'agmt-2to1'     # agreement name
@@ -105,8 +107,8 @@ TERRERACT_MODEL:    'best'  # select one of (best|fast|legacy)
 # --------------- LDAP auth --------------
 AS_LDAP_AUTH_ENABLED:   False
 AS_PROFILE_ID:      'sssd'
-AS_LDAP_URI1:       'ldap://ldap1.{{ PCA_DOMAIN_SUFFIX }}'
-AS_LDAP_URI2:       'ldap://ldap2.{{ PCA_DOMAIN_SUFFIX }}'
+AS_LDAP_URI1:       'ldap://{{ DS389_REPL_HOST1 }}'
+AS_LDAP_URI2:       'ldap://{{ DS389_REPL_HOST1 }}'
 AS_LDAP_BASEDN:     '{{ DS389_SUFFIX }}'
 AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
 AD_LDAP_BINDPW:     '{{ DS389_ROOT_PASSWORD }}'

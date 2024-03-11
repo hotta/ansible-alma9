@@ -5,18 +5,6 @@
 This playbook supports multi-provider replication by default.
 We assume there are two hosts to set up. 
 (Though, greater than two hosts is not yet supported).
-The both hosts have the same settings as follows:
-
-```
-$ tail -2 /etc/hosts
-192.168.56.6    ldap1   ldap1.example.com
-192.168.56.7    ldap2   ldap2.example.com
-$ grep ^[BU] /etc/openldap/ldap.conf
-BASE    dc=example,dc=com
-URI     ldap://localhost
-```
-
-The IP addresses should be read according to your environment.
 
 ## Create inventory
 
@@ -42,7 +30,14 @@ $ grep ^DS389 group_vars/all
 (snip)
 ```
 
-You can overwrite these values by creating group_vars/ds389.yml and putting entries you want to change in it. You may have to rewrite DS389_REPL_HOST{1,2}to at least match the hosts listed in hosts.ds389.
+You can overwrite these values by creating group_vars/ds389.yml and putting entries you want to change in it. 
+
+```
+$ cd group_vars
+$ cp ds389.yml.tmpl ds389.yml
+$ vi ds389.yml
+$ cd ..
+```
 
 ## Run the playbook
 

@@ -3,3 +3,4 @@ localhost.yml
 pricate-ca.yml
 /.vscode
 /hosts.ds389
+ds389.yml

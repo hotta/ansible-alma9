@@ -1,0 +1,13 @@
+# ds389.yml
+---
+DS389_USE_COMMON_GROUP: True
+AS_LDAP_AUTH_ENABLED:   True
+DS389_SUFFIX:           'dc=example,dc=com'
+PCA_DOMAIN_SUFFIX:      'example.com'
+DS389_MAILDOMAIN:       '{{ PCA_DOMAIN_SUFFIX }}' 
+DS389_HOST1:            'ldap1'
+DS389_HOST2:            'ldap2'
+DS389_COMMON_GROUP:     'common'
+DS389_COMMON_GIDNUMBER: 501
+AS_LDAP_URI1:           'ldap://{{ DS389_REPL_HOST1 }}'
+AS_LDAP_URI2:           'ldap://{{ DS389_REPL_HOST2 }}'

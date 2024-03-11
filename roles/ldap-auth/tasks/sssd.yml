@@ -8,6 +8,7 @@
     name: 
       - sssd
       - sssd-tools
+      - oddjob-mkhomedir
   become: true
 
 - name: Configure sssd
