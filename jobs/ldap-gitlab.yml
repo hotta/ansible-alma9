@@ -1,0 +1,4 @@
+---
+- hosts: localhost
+  roles:
+    - { role: ldap-gitlab,           tags: ldap-gitlab          }

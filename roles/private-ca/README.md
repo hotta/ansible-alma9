@@ -1,7 +1,7 @@
 # Create Private CA and Server Certificates
 
 This role is just for test and evaluation purpose only.
-The auto configuration of web server for maintaining the CA, such as OCSP (Online Certificate Status Protocol) Responder and/or CRL((Certificate Revocatiom List) Distribution Poins, is not supported.
+The auto configuration of web server for maintaining the CA, such as OCSP (Online Certificate Status Protocol) Responder and/or CRL(Certificate Revocatiom List) Distribution Poins, are not supported.
 
 ## Prerequisite
 
@@ -9,12 +9,12 @@ First, confirm the default settings involved with certificates. Note that DS389 
 
 ```
 $ cd ~/ansible-alma9
-$ grep -E '(SUFFIX|FQDN|HOSTNAME2?):' group_vars/all
+$ grep -E '(SUFFIX|FQDN|HOSTNAME2?):' group_vars/all | grep -v PHP
 PCA_DOMAIN_SUFFIX:  'example.com'
 PCA_HOSTNAME:       "{{ ansible_facts['nodename'] }}"   # primary host name
 PCA_HOSTNAME2:      'server2'   # secondary host name to create cert for.
-DS389_FQDN:     "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"    # general.full_machine_name
-DS389_SUFFIX:   "dc=example,dc=com"         # backend-userroot.suffix
+DS389_SUFFIX:       'dc=example,dc=com' # backend-userroot.suffix
+DS389_FQDN: "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"    # general.full_machine_name
 GITLAB_FQDN:        "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"
 ```
 
@@ -41,10 +41,10 @@ PCA_FORCE_CREATE: True
 $ ansible-playbook jobs/private-ca.yml
 ```
 
-If content of host_vars/localhost.yml is as described above, it will create following directories/files:
+If the content of host_vars/localhost.yml is as described above, it will create following directories/files:
 
-- ~/private-ca/root-ca/private/root-ca.key ( Root Certificate )
-- ~/private-ca/sub-ca/private/sub-ca.key ( Intermediate Certificate )
+- ~/private-ca/root-ca/private/root-ca.key - CA's Root Certificate
+- ~/private-ca/sub-ca/private/sub-ca.key - Intermediate Certificate
 - ~/private-ca/example.com/ldap.{key,csr,crt} - Server Certificate
 - ~/private-ca/example.com/gitlab.{key,csr,crt} - Server Certificate
 

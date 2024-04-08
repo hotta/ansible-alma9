@@ -1,0 +1,92 @@
+---
+- name: roles/ldap-auth/tasks/prerequisite.yml
+  assert: { that: true, quiet: true }
+
+- fail:
+    msg: "Caution: AS_LDAP_AUTH_ENABLED is False. Please read roles/ldap-auth/README.md first."
+  when: not AS_LDAP_AUTH_ENABLED
+
+- name: Install dnspython
+  dnf:
+    name: python3-dns
+  become: true
+
+- name: Initialize var for the hostname resolution
+  set_fact: 
+    can_resolve: false
+
+- name: DNS lookup ldap1 (1)
+  set_fact: 
+    host_found: "{{ lookup('community.general.dig', AS_LDAP_URI1) }}"
+
+- name: check ldap1 (1)
+  set_fact:
+    can_resolve: true
+  when: host_found != "NXDOMAIN"
+
+- name: DNS lookup ldap2 (2)
+  set_fact: 
+    host_found: "{{ lookup('community.general.dig', AS_LDAP_URI2) }}"
+  when: not can_resolve
+
+- name: check ldap2 (2)
+  set_fact:
+    can_resolve: true
+  when:
+    - not can_resolve
+    - host_found != "NXDOMAIN"
+
+- name: FILE lookup ldap1 (3)
+  getent:
+    database: hosts
+    fail_key: false
+    key: "{{ AS_LDAP_HOSTNAME1 }}"
+  when: not can_resolve
+
+- name: check FILE lookup ldap1(3)
+  set_fact:
+    tmp: "{{ ansible_facts.getent_hosts | dict2items }}"
+  when: 
+    - not can_resolve
+
+- debug: msg="tmp = {{ tmp }}"
+
+- name: peg FILE lookup ldap1(3)
+  set_fact:
+    can_resolve: true
+  when:
+    - not can_resolve
+    - tmp.0.value
+
+- debug: var=can_resolve
+
+- name: FILE lookup ldap1 (4)
+  getent:
+    database: hosts
+    fail_key: false
+    key: "{{ AS_LDAP_HOSTNAME2 }}"
+  when: not can_resolve
+
+- name: check FILE lookup ldap1(4)
+  set_fact:
+    tmp: "{{ ansible_facts.getent_hosts | dict2items }}"
+  when: 
+    - not can_resolve
+
+- name: peg FILE lookup ldap1(4)
+  set_fact:
+    can_resolve: true
+  when:
+    - not can_resolve
+    - tmp.0.value
+
+- name: Conclusion
+  fail:
+    msg: ldap hostname(s) not resolved.
+  when: not can_resolve
+
+- name: overwrite ldap.conf
+  template:
+    src: ldap.conf
+    dest: /etc/openldap/ldap.conf
+  become: true

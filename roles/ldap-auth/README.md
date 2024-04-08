@@ -1,7 +1,7 @@
 # Activating LDAP Auth
 
 
-Up to RHEL7, authconfig was used as a configuration tool for authentication linkage.  It has been deprecated since RHEL8, and authselect is provided as a successor. Also,  nss-pam-ldapd was using when using LDAP for external authentication, sssd(sssd-ldap) has become the successor to nss-pam-ldapd. 
+Up to RHEL7, authconfig was using as a configuration tool for authentication linkage.  As it has been deprecated since RHEL8, authselect is providing as a successor. Also,  nss-pam-ldapd was using when using LDAP for external authentication, sssd(sssd-ldap) has become the successor to nss-pam-ldapd. 
 
 With authselect, you can easily set up external authentication using an existing external LDAP or Active Directory server(s). However, when using authselect, you will need to know how the authentication federation settings are managed for the host in question. Authentication federation is managed by the authselect profile. The current profile can be viewed with the `authselect current` command.
 

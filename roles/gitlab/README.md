@@ -1,7 +1,8 @@
 # Deploying gitlab
 
+## Deploy 
 1. Create host_vars/localhost.yml.tmpl by copying localhost.yml.tmpl.
-2. Open host_vars/localhost.yml using any editor to check the value of GITLAB_FQDN (default to "gitlab.example.org"). You may change PCA_HOSTNAME or PCA_DOMAIN_SUFFIX into any value. Do not change GITLAB_FQDN directly.
+2. Open host_vars/localhost.yml using any editor to check the value of GITLAB_FQDN (default to "$(hostname).gitlab.example.com"). You may change PCA_HOSTNAME or PCA_DOMAIN_SUFFIX but do not change GITLAB_FQDN directly.
 3. Run "ansible-playbook jobs/gitlab.yml" to deploy gitlab-ee.
 
 # Before first login
@@ -13,8 +14,8 @@ Although, you can reset root password by doing following instruction.
 $ sudo gitlab-rails console -e production
 --------------------------------------------------------------------------------
  Ruby:         ruby 3.0.6p216 (2023-03-30 revision 23a532679b) [x86_64-linux]
- GitLab:       16.2.4-ee (9544e5451d7) EE
- GitLab Shell: 14.23.0
+ GitLab:       16.3.4-ee (f8f84c53318) EE
+ GitLab Shell: 14.26.0
  PostgreSQL:   13.11
 ------------------------------------------------------------[ booted in 69.86s ]
 Loading production environment (Rails 7.0.6)
@@ -36,3 +37,7 @@ irb(main)> exit
 
 # Login using glab command
 
+
+## Create self-signed certs in advance.
+
+See roles/ldap-gitlab/README.md for details.

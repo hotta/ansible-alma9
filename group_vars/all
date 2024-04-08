@@ -73,6 +73,8 @@ GITLAB_PACKAGE_VER:     'gitlab-ee-16.3.4-ee.0.el9'
 GITLAB_FQDN:        "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"
 GITLAB_GLAB_RPM:    'glab_1.33.0_Linux_x86_64.rpm'
 GITLAB_GLAB_URL:    "https://gitlab.com/gitlab-org/cli/-/releases/v1.33.0/downloads/{{ GITLAB_GLAB_RPM }}"
+GITLAB_LDAP_SERVER1:    '{{ DS389_HOST1 }}.{{ PCA_DOMAIN_SUFFIX }}'
+GITLAB_LDAP_SERVER2:    '{{ DS389_HOST2 }}.{{ PCA_DOMAIN_SUFFIX }}'
 # ---------------- mariadb ---------------
 MARIADB_VER:            '10.11'
 MARIADB_ROOT_PW:        ''
@@ -107,8 +109,10 @@ TERRERACT_MODEL:    'best'  # select one of (best|fast|legacy)
 # --------------- LDAP auth --------------
 AS_LDAP_AUTH_ENABLED:   False
 AS_PROFILE_ID:      'sssd'
-AS_LDAP_URI1:       'ldap://{{ DS389_REPL_HOST1 }}'
-AS_LDAP_URI2:       'ldap://{{ DS389_REPL_HOST1 }}'
+AS_LDAP_HOSTNAME1:  '{{ DS389_REPL_HOST1 }}'
+AS_LDAP_HOSTNAME2:  '{{ DS389_REPL_HOST2 }}'
+AS_LDAP_URI1:       'ldap://{{ AS_LDAP_HOSTNAME1 }}'
+AS_LDAP_URI2:       'ldap://{{ AS_LDAP_HOSTNAME2 }}'
 AS_LDAP_BASEDN:     '{{ DS389_SUFFIX }}'
 AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
 AD_LDAP_BINDPW:     '{{ DS389_ROOT_PASSWORD }}'

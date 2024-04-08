@@ -9,7 +9,7 @@
     path: "{{ PCA_BASEDIR }}"
     state: absent
   become: True
-  when: PCA_FORCE_CREATE
+  when: PCA_OVERWRITE
 
 - name: Check if rootca has already been created
   stat:

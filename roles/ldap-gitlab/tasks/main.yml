@@ -1,0 +1,15 @@
+---
+- name:  roles/ldap-gitlab/tasks/main.yml
+  assert: { that: true, quiet: true}
+
+- name: Replace gitrab.rb
+  template:
+    src: gitlab.rb
+    dest: /etc/gitlab/
+  become: true
+
+- name: restart gitlab
+  systemd:
+    name: gitlab-runsvdir
+    state: restarted
+  become: true

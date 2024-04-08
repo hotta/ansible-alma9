@@ -48,7 +48,7 @@
   lineinfile:
     path: /etc/hosts
     regexp: ^127.0.0.1  {{ GITLAB_FQDN }}
-    line: ^127.0.0.1  {{ GITLAB_FQDN }}
+    line: 127.0.0.1  {{ GITLAB_FQDN }}
   become: true
 
 - name: Open firewall
@@ -57,7 +57,6 @@
     immediate: true
     offline: true
     permanent: true
-    service: "{{ item }}"
     state: enabled
   become: yes
   loop:

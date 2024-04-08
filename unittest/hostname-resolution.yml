@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  tasks:
+    - name: DNS lookup
+      ansible.builtin.set_fact:
+        dns: "{{ lookup('community.general.dig', 'ldap1.example.org') }}"
+
+    - name: check
+      debug: var=dns
+
+    - name: FILE lookup
+      ansible.builtin.getent:
+        database: hosts
+        fail_key: false
+        key: ldap1.example.org
+
+    - set_fact:
+        tmp: "{{ ansible_facts.getent_hosts | dict2items }}"
+
+    - debug: var=tmp
+
+    - name: peg if not found
+      debug: 
+        msg: "not found"
+      when: tmp.0.value  == None
+
+    - name: peg if found
+      debug: 
+        msg: "found"
+      when: tmp.0.value
