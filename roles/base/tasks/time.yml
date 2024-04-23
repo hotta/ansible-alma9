@@ -21,3 +21,9 @@
     state: restarted
   become: yes
   when: ansible_virtualization_type == "virtualbox"
+
+- name: restart rsuslog
+  systemd:
+    name: rsuslog
+    state: restarted
+  become: yes
