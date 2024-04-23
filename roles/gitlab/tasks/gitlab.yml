@@ -54,8 +54,7 @@
 - name: Open firewall
   ansible.posix.firewalld:
     service: "{{ item }}"
-    immediate: true
-    offline: true
+    offline: false
     permanent: true
     state: enabled
   become: yes

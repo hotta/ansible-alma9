@@ -35,6 +35,7 @@ PCA_SSL_BITCOUNT:           2048
 PCA_HOSTNAME:       "{{ ansible_facts['nodename'] }}"   # primary host name
 PCA_HOSTNAME2:      'server2'   # secondary host name to create cert for.
 PCA_SERVER_HOME:    "{{ PCA_BASEDIR }}/{{ PCA_DOMAIN_SUFFIX }}"
+PCA_OVERWRITE:      True
 # ------------------ 389ds ------------------
 DS389_FORCE_CREATE:     True    # Overwrite current instance every time !!
 DS389_CONFIG_VERSION:   999999999                   # general.defaults
