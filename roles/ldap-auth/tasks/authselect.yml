@@ -11,6 +11,7 @@
   environment:
     LANG: C
   register: as_current
+  ignore_errors: true
 
 - debug: var=as_current
 
@@ -18,6 +19,7 @@
 #    as_profile_id: "{{ as_current.stdout | regex_search('Profile ID: (\\S+)', '\\1') }}"
     profile_id: "{{ as_current.stdout | regex_search('Profile ID: (\\S+)', '\\1') | join('') }}"
     as_feature: "{{ as_current.stdout | regex_search('Enabled features: (\\S+)', '\\1') }}"
+  when: as_current.rc == 0
 
 - debug: var=AS_PROFILE_ID
 - debug: var=profile_id
@@ -25,8 +27,10 @@
 
 - fail:
     msg: "authselect has been configured as other than {{ AS_PROFILE_ID }}"
-  when: profile_id != AS_PROFILE_ID
+  when: 
+    - as_current.rc == 0
+    - profile_id != AS_PROFILE_ID
 
 - name: Activate SSSD Profile
-  command: authselect select {{ AS_PROFILE_ID }} with-mkhomedir 
+  command: authselect select --force {{ AS_PROFILE_ID }} with-mkhomedir 
   become: true

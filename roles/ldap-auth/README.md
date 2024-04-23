@@ -10,22 +10,21 @@ Authselect is enabled by default in RHEL8 and its derivatives. You must not modi
 You can overwrite these values by creating host_vars/localhost.yml and writing entries you want to change.
 
 ```
-$ grep ^AS_ group_vars/all
+$ grep ^AS_LDAP group_vars/all
 AS_LDAP_AUTH_ENABLED:   False
-AS_PROFILE_ID:      'sssd'
-AS_LDAP_URI1:       'ldap://ldap1.{{ PCA_DOMAIN_SUFFIX }}'
-AS_LDAP_URI2:       'ldap://ldap2.{{ PCA_DOMAIN_SUFFIX }}'
+AS_LDAP_HOSTNAME1:  '{{ DS389_REPL_HOST1 }}'
+AS_LDAP_HOSTNAME2:  '{{ DS389_REPL_HOST2 }}'
+AS_LDAP_URI1:       'ldap://{{ AS_LDAP_HOSTNAME1 }}'
+AS_LDAP_URI2:       'ldap://{{ AS_LDAP_HOSTNAME2 }}'
 AS_LDAP_BASEDN:     '{{ DS389_SUFFIX }}'
 AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
 ```
 
-If you want to use ldap authentication, please follow the instructions:
-
-1. See roles/389ds/README to create hosts.ds389.
-2. Run playbook.
+Next, make sure AS_LDAP_HOSTNAME1 and AS_LDAP_HOSTNAME2 can be resolved by DNS or /etc/hosts.
+And then run playbook.
 
 ```
-$ ansible-playbook jobs/ldap-auth.yml -i hosts.ds389
+$ ansible-playbook jobs/ldap-auth.yml
 ```
 
 Note that winbind(AD auth) has not yet supported in this playbook.

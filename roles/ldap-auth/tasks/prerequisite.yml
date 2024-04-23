@@ -17,7 +17,7 @@
 
 - name: DNS lookup ldap1 (1)
   set_fact: 
-    host_found: "{{ lookup('community.general.dig', AS_LDAP_URI1) }}"
+    host_found: "{{ lookup('community.general.dig', AS_LDAP_HOSTNAME1) }}"
 
 - name: check ldap1 (1)
   set_fact:
@@ -26,7 +26,7 @@
 
 - name: DNS lookup ldap2 (2)
   set_fact: 
-    host_found: "{{ lookup('community.general.dig', AS_LDAP_URI2) }}"
+    host_found: "{{ lookup('community.general.dig', AS_LDAP_HOSTNAME2) }}"
   when: not can_resolve
 
 - name: check ldap2 (2)
