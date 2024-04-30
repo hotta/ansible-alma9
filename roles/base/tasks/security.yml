@@ -1,0 +1,10 @@
+---
+- name: roles/base/tasks/security.yml
+  assert: { that: true, quiet: true }
+
+- name: Enable firewalld
+  systemd: 
+    name: firewalld
+    state: started
+    enabled: true
+  become: yes

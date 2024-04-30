@@ -75,3 +75,4 @@
   loop:
     - ldap
     - ldaps
+  ignore_errors: true
