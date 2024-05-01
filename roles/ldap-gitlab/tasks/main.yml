@@ -8,6 +8,10 @@
     dest: /etc/gitlab/
   become: true
 
+- name: Reconfigure gitlab
+  command: gitlab-ctl reconfigure
+  become: true
+
 - name: restart gitlab
   systemd:
     name: gitlab-runsvdir

@@ -68,12 +68,13 @@ DS389_PORT:             389
 DS389_AGMT_1TO2:        'agmt-1to2'     # agreement name
 DS389_AGMT_2TO1:        'agmt-2to1'     # agreement name
 # ---------------- gitlab ----------------
-GITLAB_VERSION:         '16.3.4'
+GITLAB_VERSION:         '16.10.3'
+GITLAB_GLAB_VERSION:    '1.40.0'
 GITLAB_GPG_KEY:     'RPM-GPG-KEY-Gitlab-{{ GITLAB_VERSION }}'
-GITLAB_PACKAGE_VER:     'gitlab-ee-16.3.4-ee.0.el9'
+GITLAB_PACKAGE_VER:     'gitlab-ee-{{ GITLAB_VERSION }}-ee.0.el9'
 GITLAB_FQDN:        "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"
-GITLAB_GLAB_RPM:    'glab_1.33.0_Linux_x86_64.rpm'
-GITLAB_GLAB_URL:    "https://gitlab.com/gitlab-org/cli/-/releases/v1.33.0/downloads/{{ GITLAB_GLAB_RPM }}"
+GITLAB_GLAB_RPM:    'glab_{{ GITLAB_GLAB_VERSION }}_Linux_x86_64.rpm'
+GITLAB_GLAB_URL:    "https://gitlab.com/gitlab-org/cli/-/releases/v{{ GITLAB_GLAB_VERSION }}/downloads/{{ GITLAB_GLAB_RPM }}"
 GITLAB_LDAP_SERVER1:    '{{ DS389_HOST1 }}.{{ PCA_DOMAIN_SUFFIX }}'
 GITLAB_LDAP_SERVER2:    '{{ DS389_HOST2 }}.{{ PCA_DOMAIN_SUFFIX }}'
 # ---------------- mariadb ---------------

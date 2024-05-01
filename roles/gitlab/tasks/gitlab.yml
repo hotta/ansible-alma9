@@ -62,6 +62,7 @@
     - http
     - https
   tags: firewall
+  notify: reload firewalld
 
 - name: Fix gitlab version
   lineinfile:
@@ -72,4 +73,3 @@
 
 - name: Gitlab was successfully installed.
   assert: { that: true, quiet: true }
-
