@@ -1,5 +1,3 @@
 dependencies:
   - service
   - base
-  - private-ca
-  - server-cert

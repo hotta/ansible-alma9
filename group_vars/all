@@ -73,6 +73,8 @@ GITLAB_GLAB_VERSION:    '1.40.0'
 GITLAB_GPG_KEY:     'RPM-GPG-KEY-Gitlab-{{ GITLAB_VERSION }}'
 GITLAB_PACKAGE_VER:     'gitlab-ee-{{ GITLAB_VERSION }}-ee.0.el9'
 GITLAB_FQDN:        "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"
+GITLAB_HTTP_URL:    'http://{{ GITLAB_FQDN }}'
+GITLAB_HTTPS_URL:   'https://{{ GITLAB_FQDN }}'
 GITLAB_GLAB_RPM:    'glab_{{ GITLAB_GLAB_VERSION }}_Linux_x86_64.rpm'
 GITLAB_GLAB_URL:    "https://gitlab.com/gitlab-org/cli/-/releases/v{{ GITLAB_GLAB_VERSION }}/downloads/{{ GITLAB_GLAB_RPM }}"
 GITLAB_LDAP_SERVER1:    '{{ DS389_HOST1 }}.{{ PCA_DOMAIN_SUFFIX }}'
