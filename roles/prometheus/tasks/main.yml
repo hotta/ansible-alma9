@@ -1,0 +1,39 @@
+---
+- name: roles/prometheus/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+- name: Get and unarchive prometheus archive file
+  ansible.builtin.unarchive:
+    src: "{{ PRMT_ARCHIVE_URL }}"
+    remote_src: true
+    dest: /opt
+  become: true
+
+- name: Create symlink
+  file:
+    path: "{{ PRMT_SYMLINK }}"
+    src: /opt/{{ PRMT_BASENAME }}
+    state: link
+  become: true
+
+- name: Customize config
+  template:
+    src: prometheus.yml
+    dest: "{{ PRMT_SYMLINK }}/prometheus.yml"
+  become: true
+
+- name: Open firewall
+  ansible.posix.firewalld:
+    port: "{{ PRMT_PORT }}/tcp"
+    immediate: yes
+    permanent: yes
+    state: enabled
+  become: yes
+  notify: reload firewalld
+
+- name: Deploy as a service
+  template:
+    src: prometheus.service
+    dest: /etc/systemd/system
+  become: yes
+  notify: systemd daemon-reload

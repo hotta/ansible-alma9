@@ -122,3 +122,10 @@ AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
 AD_LDAP_BINDPW:     '{{ DS389_ROOT_PASSWORD }}'
 # --------------- PostgreSQL --------------
 PG_VERSION:         15
+# --------------- Prometheus --------------
+PRMT_VERSION:       '2.52.0'
+PRMT_BASENAME:      'prometheus-{{ PRMT_VERSION }}.linux-amd64'
+PRMT_ARC_FILENAME:  '{{ PRMT_BASENAME }}.tar.gz'
+PRMT_ARCHIVE_URL:   'https://github.com/prometheus/prometheus/releases/download/v{{ PRMT_VERSION }}/{{ PRMT_ARC_FILENAME }}'
+PRMT_SYMLINK:       '/opt/prometheus'
+PRMT_PORT:          9090

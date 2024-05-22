@@ -1,0 +1,15 @@
+[Unit]
+Description=Prometheus Server
+After=auditd.service nss-user-lookup.target systemd-user-sessions.service time-sync.target ypbind.service autofs.service
+
+[Service]
+EnvironmentFile=/etc/sysconfig/prometheus
+ExecStart={{ PRMT_SYMLINK }}/prometheus
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=30s
+
+[Install]
+WantedBy=multi-user.target
+
