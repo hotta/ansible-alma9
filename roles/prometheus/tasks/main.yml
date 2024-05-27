@@ -2,7 +2,7 @@
 - name: roles/prometheus/tasks/main.yml
   assert: { that: true, quiet: true }
 
-- name: Get and unarchive prometheus archive file
+- name: Unarchive prometheus archive file
   ansible.builtin.unarchive:
     src: "{{ PRMT_ARCHIVE_URL }}"
     remote_src: true
@@ -30,6 +30,12 @@
     state: enabled
   become: yes
   notify: reload firewalld
+
+- name: Deploy environment file
+  template:
+    src: prometheus
+    dest: /etc/sysconfig/
+  become: true
 
 - name: Deploy as a service
   template:

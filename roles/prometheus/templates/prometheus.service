@@ -4,7 +4,7 @@ After=auditd.service nss-user-lookup.target systemd-user-sessions.service time-s
 
 [Service]
 EnvironmentFile=/etc/sysconfig/prometheus
-ExecStart={{ PRMT_SYMLINK }}/prometheus
+ExecStart={{ PRMT_SYMLINK }}/prometheus --config.file={{ PRMT_SYMLINK }}/prometheus.yml
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure

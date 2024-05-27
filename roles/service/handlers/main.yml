@@ -54,6 +54,5 @@
 
 - name: systemd daemon-reload
   systemd_service:
-    enabled: true
     daemon-reload: true
   become: yes
