@@ -38,9 +38,8 @@ Running this playbook by "root" user is not tested and not recommended.
 ## Set environment
 
 ```
-$ sudo update-crypto-policies --set LEGACY
+# sudo update-crypto-policies --set LEGACY  # in case yum install fails.
 $ sudo rpm --import https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux
-$ sudo update-crypto-policies --set DEFAULT
 $ sudo dnf -y update
 $ sudo dnf -y install git epel-release glibc-langpack-ja
 $ sudo dnf -y install ansible

@@ -5,10 +5,6 @@ PCA_COMMON_NAME:    'example CA'
 PCA_HOSTNAME:       "{{ ansible_facts['nodename'] }}"
 PCA_HOSTNAME2:      'server2'   # the 2nd server to create cert for.
 # PCA_HOSTNAME3:      'server3' # the 3nd server if any.
-GITLAB_FQDN:        "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"
-GITLAB_LDAP_SERVER1:    '{{ DS389_HOST1 }}.{{ PCA_DOMAIN_SUFFIX }}'
-GITLAB_LDAP_SERVER2:    '{{ DS389_HOST2 }}.{{ PCA_DOMAIN_SUFFIX }}'
-LARAVEL_DB_ENGINE:      'sqlite'    # 'sqlite' / 'mysql' / 'pgsql'
 AS_LDAP_AUTH_ENABLED:   True
 AS_PROFILE_ID:      'sssd'
 AS_LDAP_HOSTNAME1:  '{{ DS389_REPL_HOST1 }}'
@@ -17,3 +13,8 @@ AS_LDAP_URI1:       'ldap://{{ AS_LDAP_HOSTNAME1 }}'
 AS_LDAP_URI2:       'ldap://{{ AS_LDAP_HOSTNAME2 }}'
 AS_LDAP_BASEDN:     '{{ DS389_SUFFIX }}'
 AS_LDAP_BINDDN:     '{{ DS389_ROOT_DN }}'
+AD_LDAP_BINDPW:     '{{ DS389_ROOT_PASSWORD }}'
+GITLAB_FQDN:        "{{ PCA_HOSTNAME }}.{{ PCA_DOMAIN_SUFFIX }}"
+GITLAB_LDAP_SERVER1:    '{{ AS_LDAP_HOSTNAME1 }}.{{ PCA_DOMAIN_SUFFIX }}'
+GITLAB_LDAP_SERVER2:    '{{ AS_LDAP_HOSTNAME2 }}.{{ PCA_DOMAIN_SUFFIX }}'
+LARAVEL_DB_ENGINE:      'sqlite'    # 'sqlite' / 'mysql' / 'pgsql'
