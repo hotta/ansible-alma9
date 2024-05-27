@@ -42,4 +42,11 @@
     src: prometheus.service
     dest: /etc/systemd/system
   become: yes
-  notify: systemd daemon-reload
+
+- name: Start prometheus service
+  systemd:
+    name: prometheus.service
+    state: started
+    enabled: true
+    daemon-reload: true
+  become: yes
