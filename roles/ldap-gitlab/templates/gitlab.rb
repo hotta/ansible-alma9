@@ -515,8 +515,8 @@ main: # 'main' is the GitLab 'provider ID' of this LDAP server
    host: '{{ GITLAB_LDAP_SERVER1 }}'
    port: 389
    uid: 'uid'
-   bind_dn: '{{ DS389_ROOT_DN }}'
-   password: '{{ DS389_ROOT_PASSWORD }}'
+   bind_dn: '{{ AS_LDAP_BINDDN }}'
+   password: '{{ AD_LDAP_BINDPW }}'
    encryption: 'plain' # "start_tls" or "simple_tls" or "plain"
    verify_certificates: false
    smartcard_auth: false
@@ -526,7 +526,7 @@ main: # 'main' is the GitLab 'provider ID' of this LDAP server
    allow_username_or_email_login: false
    lowercase_usernames: false
    block_auto_created_users: false
-   base: '{{ DS389_SUFFIX }}'
+   base: '{{ AS_LDAP_BASEDN }}'
    user_filter: ''
    ## EE only
    group_base: ''
@@ -538,8 +538,8 @@ secondary: # 'secondary' is the GitLab 'provider ID' of second LDAP server
    host: '{{ GITLAB_LDAP_SERVER2 }}'
    port: 389
    uid: 'uid'
-   bind_dn: '{{ DS389_ROOT_DN }}'
-   password: '{{ DS389_ROOT_PASSWORD }}'
+   bind_dn: '{{ AS_LDAP_BINDDN }}'
+   password: '{{ AD_LDAP_BINDPW }}'
    encryption: 'plain' # "start_tls" or "simple_tls" or "plain"
    verify_certificates: false
    smartcard_auth: false
@@ -549,7 +549,7 @@ secondary: # 'secondary' is the GitLab 'provider ID' of second LDAP server
    allow_username_or_email_login: false
    lowercase_usernames: false
    block_auto_created_users: false
-   base: '{{ DS389_SUFFIX }}'
+   base: '{{ AS_LDAP_BASEDN }}'
    user_filter: ''
    ## EE only
    group_base: ''
