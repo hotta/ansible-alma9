@@ -1,0 +1,27 @@
+---
+- name: roles/bind/tasks/main.yml
+  assert: { that: true, quiet: true }
+
+- name: Install dependencies
+  dnf:
+    name:
+       - bind-chroot
+  become: true
+
+- name: Start service
+  systemd:
+    name: named-chroot
+    state: started
+    enabled: true
+  become: true
+
+- name: Open firewall
+  ansible.posix.firewalld:
+    immediate: true
+    offline: true
+    permanent: true
+    service: dns
+    state: enabled
+  become: yes
+  ignore_errors: true
+

@@ -37,6 +37,7 @@
       - postfix
       - msmtp
       - ugrep
+      - firewalld
   become: yes
 
 - name: Install additional packages for AlmaLinux
