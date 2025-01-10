@@ -1,0 +1,12 @@
+$TTL 1D
+@   IN  SOA ns1.example.com. admin.example.com. (
+           2025011001 ; Serial
+           1D         ; Refresh
+           1H         ; Retry
+           1W         ; Expire
+           3H         ; Minimum TTL
+)
+        NS  @
+        A   192.168.0.1
+1   IN  PTR ns1.example.com.
+2   IN  PTR www.example.com.

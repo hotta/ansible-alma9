@@ -8,10 +8,36 @@
        - bind-chroot
   become: true
 
+- name: Set IPv4 only mode
+  lineinfile:
+    path: /etc/sysconfig/named
+    regex: ^OPTIONS
+    line: OPTIONS="-4"
+  become: true
+
+- name: Deploy named.conf
+  template:
+    src: named.conf
+    dest: /etc/
+    mode: 0640
+  become: true
+
+- name: Deploy zone files
+  template:
+    src: "{{ item }}"
+    dest: /var/named/
+    owner: named
+    group: named
+    mode: 0640
+  become: true
+  loop:
+    - forward.example.com.db
+    - reverse.example.com.db
+
 - name: Start service
   systemd:
     name: named-chroot
-    state: started
+    state: restarted
     enabled: true
   become: true
 
