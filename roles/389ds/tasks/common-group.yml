@@ -4,10 +4,10 @@
 
 - name: Create common group
   command:
-    cmd: dsidm {{ DS389_INSTANCE_NAME }} group create --cn {{ DS389_COMMON_GROUP }}
+    cmd: dsidm {{ DS389_INSTANCE_NAME }} -b {{ DS389_SUFFIX }} group create --cn {{ DS389_COMMON_GROUP }}
   become: true
 
 - name: Modify common group to conform to POSIX
   command:
-    cmd: dsidm {{ DS389_INSTANCE_NAME }} group modify {{ DS389_COMMON_GROUP }} add:objectClass:posixGroup add:gidNumber:{{ DS389_COMMON_GIDNUMBER }}
+    cmd: dsidm {{ DS389_INSTANCE_NAME }} -b {{ DS389_SUFFIX }} group modify {{ DS389_COMMON_GROUP }} add:objectClass:posixGroup add:gidNumber:{{ DS389_COMMON_GIDNUMBER }}
   become: true
