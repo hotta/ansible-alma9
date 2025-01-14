@@ -2,11 +2,20 @@
 - name: roles/389ds/tasks/instance.yml
   assert: { that: true, quiet: true }
 
-- name: Install 389ds
-  dnf:
-    name: 389-ds-base
-    state: present
+# https://www.taruki.com/wp/?p=7764
+
+- name: Enable 389ds repository
+  command: dnf -y copr enable @389ds/389-directory-server
   become: yes
+
+- name: Install 389-ds and coclpit
+  dnf:
+    name:
+      - 389-ds-base
+      - 389-ds-base-libs
+      - python3-lib389
+      - cockpit-389-ds
+  become: true
 
 - name: Deploy template file to /tmp
   template:
