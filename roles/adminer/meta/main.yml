@@ -1,4 +1,5 @@
 dependencies:
+  - { role: base }
   - { role: php }
   - { role: httpd }
   - { role: service }
